@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Keyboard keyWidth="58" keyHeight="50" horizontalGap="5" verticalGap="5">
+    <Row>
+        <Key codes="" keyWidth="0" />
+		<Key codes="33" keyLabel="!" />
+		<Key codes="64" keyLabel="@" />
+		<Key codes="35" keyLabel="#" />
+		<Key codes="36" keyLabel="$" />
+		<Key codes="37" keyLabel="%" />
+		<Key codes="94" keyLabel="^" />
+		<Key codes="38" keyLabel="&amp;" />
+		<Key codes="42" keyLabel="*" />
+		<Key codes="45" keyLabel="-" />
+		<Key codes="43" keyLabel="+" />
+        <Key codes="-5" keyLabel="!" keyLabelStyle=".font-fxkeyboard" keyWidth="110"
+            repeatable="true" />
+        <Key codes="" keyWidth="0" />
+    </Row>
+
+    <Row>
+        <Key codes="" keyWidth="20" />
+        <Key codes="81" keyLabel="Q" />
+        <Key codes="87" keyLabel="W" />
+        <Key codes="69" keyLabel="E" />
+        <Key codes="82" keyLabel="R" />
+        <Key codes="84" keyLabel="T" />
+        <Key codes="89" keyLabel="Y" />
+        <Key codes="85" keyLabel="U" />
+        <Key codes="73" keyLabel="I" />
+        <Key codes="79" keyLabel="O" />
+        <Key codes="80" keyLabel="P" />
+
+        <Key codes="" keyWidth="93.5" />
+    </Row>
+
+    <Row>
+        <Key codes="" keyWidth="40" />
+        <Key codes="65" keyLabel="A" />
+        <Key codes="83" keyLabel="S" />
+        <Key codes="68" keyLabel="D" />
+        <Key codes="70" keyLabel="F" />
+        <Key codes="71" keyLabel="G" />
+        <Key codes="72" keyLabel="H" />
+        <Key codes="74" keyLabel="J" />
+        <Key codes="75" keyLabel="K" />
+        <Key codes="76" keyLabel="L" />
+        <Key codes="-9" keyLabel="ENTER" keyLabelStyle=".small-style" keyWidth="110" />
+        <Key codes="" keyWidth="0" />
+    </Row>
+
+    <Row rowEdgeFlags="bottom">
+        <Key codes="" keyWidth="0" />
+        <Key codes="-1" keyLabel="J" keyLabelStyle=".font-fxkeyboard" modifier="true"
+            sticky="true" />
+        <Key codes="90" keyLabel="Z" />
+        <Key codes="88" keyLabel="X" />
+        <Key codes="67" keyLabel="C" />
+        <Key codes="86" keyLabel="V" />
+        <Key codes="66" keyLabel="B" />
+        <Key codes="78" keyLabel="N" />
+        <Key codes="77" keyLabel="M" />
+
+        <Key codes="60" keyLabel="&lt;" />
+        <Key codes="62" keyLabel="&gt;" />
+        <Key codes="" keyWidth="20" />
+<!--        <Key codes="" keyWidth="85" />-->
+<!--        <Key codes="-2" keyLabel="?$#" keyLabelStyle=".small-style" />-->
+        <Key codes="-1" keyLabel="J" keyLabelStyle=".font-fxkeyboard" modifier="true"
+            sticky="true" />
+        <Key codes="" keyWidth="0" />
+    </Row>
+
+</Keyboard>
