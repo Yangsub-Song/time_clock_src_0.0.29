@@ -12,6 +12,7 @@ import com.techrove.timeclock.io.Audio
 import com.techrove.timeclock.io.RfReader
 import com.techrove.timeclock.io.TempSensor
 import com.techrove.timeclock.security.Key
+import com.techrove.timeclock.security.KeyHelper
 import com.techrove.timeclock.security.encrypt
 import com.techrove.timeclock.server.cwma.CwmaServer
 import com.techrove.timeclock.server.cwma.model.req.CardAuthRequest
@@ -123,6 +124,13 @@ fun MainController.initGotoWork() {
     // 출근
     ///////////////////////////////////////////////////////////////////////////
     gotoWorkProperty.onChange {
+        // 키 유효성 체크. UI 처리는 MainView 에서 함.
+        if (KeyHelper.checkKeyIntegrity()) // Yade0916
+            logger.info { "무결성 체크 OK(온라인카드 인증 출근)" }
+        else {
+            logger.info { "무결성 체크 Error(온라인카드 인증 출근)" }
+            return@onChange
+        }
         if (it) {
             photoProperty.value = null
             Audio.play("출근 카드를 태그하시거나 지문을 스캔해 주세요.wav")
@@ -164,7 +172,6 @@ fun MainController.initGotoWork() {
                         ///////////////////////////////////////////////////////////////////////////
                         // network 오류: DB 저장
                         ///////////////////////////////////////////////////////////////////////////
-
                         logger.warn { "온라인카드인증출근 저장" }
                         logger.info { "SW 무결성 정상" }
 
@@ -215,6 +222,13 @@ fun MainController.initGotoWork() {
     }
 
     gotoWorkByFingerProperty.onChangeTrue {
+        // 키 유효성 체크. UI 처리는 MainView 에서 함.
+        if (KeyHelper.checkKeyIntegrity()) // Yade0916
+            logger.info { "무결성 체크 OK(온라인지문 인증 출근)" }
+        else {
+            logger.info { "무결성 체크 Error(온라인지문 인증 출근)" }
+            return@onChangeTrue
+        }
         launch {
             gotoWorkByFinger = false
             var request: FingerAuthRequest? = null

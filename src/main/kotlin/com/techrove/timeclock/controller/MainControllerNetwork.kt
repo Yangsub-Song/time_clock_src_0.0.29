@@ -8,6 +8,7 @@ import com.techrove.timeclock.database.transactionWithLock
 import com.techrove.timeclock.extensions.applyToSystem
 import com.techrove.timeclock.extensions.safeLet
 import com.techrove.timeclock.security.Key
+import com.techrove.timeclock.security.KeyHelper
 import com.techrove.timeclock.security.decrypt
 import com.techrove.timeclock.server.cwma.CwmaServer
 import com.techrove.timeclock.server.cwma.model.req.CardAuthRequest
@@ -126,6 +127,13 @@ fun MainController.initNetwork() {
     serverOnProperty.onChange { on ->
         if (!on) return@onChange
 
+        // 키 유효성 체크. UI 처리는 MainView 에서 함.
+        if (KeyHelper.checkKeyIntegrity()) // Yade0916
+            logger.info { "무결성 체크 OK(오프라인카드/지문 인증 출근)" }
+        else {
+            logger.info { "무결성 체크 Error(오프라인카드/지문 인증 출근)" }
+            return@onChange
+        }
         launch {
             withTimeoutOrNull(30000) {
                 while (!Db.isReady) {
