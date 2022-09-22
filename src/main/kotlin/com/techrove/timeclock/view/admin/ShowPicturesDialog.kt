@@ -1,17 +1,36 @@
 package com.techrove.timeclock.view.admin
 
 import com.techrove.timeclock.controller.admin.PictureController
+import com.techrove.timeclock.controller.model.InfoMessage
 import com.techrove.timeclock.extensions.imageViewEncrypted
 import com.techrove.timeclock.io.Audio
 import com.techrove.timeclock.security.Key
 import com.techrove.timeclock.view.custom.timeoutDialog
 import tornadofx.*
 import java.io.File
+import com.techrove.timeclock.security.KeyHelper    // Yade0920
+import com.techrove.timeclock.view.custom.IconType
+import mu.KotlinLogging
+
+private val logger = KotlinLogging.logger("MainController") // Yade0920
 
 /**
  * 사진 viewer dialog
  */
 fun AdminCenterViewVbox.showPicturesDialog() {
+    // 키 유효성 체크. UI 처리는 MainView 에서 함.
+    if (KeyHelper.checkKeyIntegrity()) // Yade0920
+        logger.info { "무결성 체크 OK(사진보기)" }
+    else {
+        logger.info { "무결성 체크 Error(사진보기)" }
+        InfoMessage(              // Yade0922
+            "무결성 체크 결과",
+            "무결성 체크 Error(사진보기)",
+            IconType.Error
+//            imageFile = photoProperty.value
+        )
+        return@showPicturesDialog
+    }
     val controller = find(PictureController::class)
     Audio.play("beep1.wav")
     timeoutDialog(

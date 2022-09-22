@@ -129,6 +129,12 @@ fun MainController.initGotoWork() {
             logger.info { "무결성 체크 OK(온라인카드 인증 출근)" }
         else {
             logger.info { "무결성 체크 Error(온라인카드 인증 출근)" }
+            infoMessage = InfoMessage(              // Yade0922
+                "무결성 체크 결과",
+                "무결성 체크 Error(온라인카드 인증 출근)",
+                IconType.Error,
+                imageFile = photoProperty.value
+            )
             return@onChange
         }
         if (it) {

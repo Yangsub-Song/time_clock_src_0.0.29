@@ -9,7 +9,7 @@ import java.time.LocalDateTime
 object Settings: Preference() {
     private const val VERSION_MAJOR = 0
     private const val VERSION_MINOR = 0
-    private const val VERSION_PATCH = 29
+    private const val VERSION_PATCH = 30    // Yade20220917
 
     const val VERSION = "$VERSION_MAJOR.$VERSION_MINOR.$VERSION_PATCH"
 

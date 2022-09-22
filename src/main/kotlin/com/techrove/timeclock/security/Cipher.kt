@@ -58,7 +58,9 @@ object Cipher {
 
     fun encrypt(key: ByteArray, input: ByteArray): ByteArray {
         val iv = getSecureRand(IV_LENGTH_BYTE)
-        logger.trace { "ENC key:${key.toHexString()} iv:${iv.toHexString()}" }
+        val gcm = GCMParameterSpec(TAG_LENGTH_BIT, iv)  // Yade0919
+        logger.trace { "ENC key:${key.toHexString()} iv:${iv.toHexString()} " +
+                "gcm: ${gcm.toString()}" } // Yade0919
         cipher.init(
             Cipher.ENCRYPT_MODE,
             SecretKeySpec(key, KEY_ALGORITHM),
