@@ -53,6 +53,15 @@ fun AdminCenterViewVbox.settingsDialog() {
                 textButton("보안 체크") { checkIntegrityDialog() }
                 spacer()
             }
+            hbox(spacing = spacing, alignment = Pos.CENTER) { // Yade0923
+                spacer()
+                textButton("SW업데이트 암호 변경") { emiTestDialog() }
+                spacer()
+                textButton("추가예정1") { showKeyRenewDialog() }
+                spacer()
+                textButton("추가예정2") { checkIntegrityDialog() }
+                spacer()
+            }
         }
     }) {
         controller.showTerminalInfo = false

@@ -91,5 +91,6 @@ class AdminCenterView : View("Admin") {
 
         initRegisterFinger()
         initPasswordChange()
+        initUpdateSWPasswordChange()    // Yade0922
     }
 }
