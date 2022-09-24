@@ -202,6 +202,7 @@ object KeyHelper {
             ///////////////////////////////////////////////////////////////////////////
             logger.info { "update password" }
             val password = Settings.password.decrypt(prevPwdKey, "pw")
+            logger.info { "관리자 암호(in plain text): $password" }     // Yade0924
             Settings.password = password.encrypt(Key.pwdKey, "pw")
 
             ///////////////////////////////////////////////////////////////////////////

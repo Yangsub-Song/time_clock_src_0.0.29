@@ -119,7 +119,19 @@ class SettingsController : BaseController() {
             model.password2.value = ""
         }
     }
-
+    // Yade0924
+    fun tryChangeSWUpdatePassword(): Boolean {
+        return if (model.swUpdatePassword1.value != model.swUpdatePassword2.value) {
+            false
+        } else {
+            Settings.swUpdatePassword = model.swUpdatePassword1.value.encrypt(Key.pwdKey, "pw")
+            Settings.swUpdatePasswordRenewedDate = LocalDateTime.now()
+            true
+        }.also {
+            model.swUpdatePassword1.value = ""
+            model.swUpdatePassword2.value = ""
+        }
+    }
     fun restartApp(deleteDb: Boolean = true) {
         if (isLinux) {
             //"/home/linaro/run.sh".runCommand()

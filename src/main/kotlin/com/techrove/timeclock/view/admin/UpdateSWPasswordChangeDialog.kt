@@ -16,7 +16,7 @@ fun AdminCenterViewVbox.updateSWPasswordChangeDialog(changePassword: Boolean = t
     val controller = find(SettingsController::class)
 
     Audio.play("beep1.wav")
-    controller.model.resetPassword()
+    controller.model.resetSWUpdatePassword()
     timeoutDialog(
         title = if (changePassword) "SW업데이트 암호 변경" else "SW업데이트 암호 설정",
         message = "3종류 이상의 문자(영문 대/소문자, 숫자, 특수문자) 8자리 이상 입력해주세요.",
@@ -31,7 +31,7 @@ fun AdminCenterViewVbox.updateSWPasswordChangeDialog(changePassword: Boolean = t
                         """^(?=.*[A-Za-z])(?=.*\d)(?=.*[@${'$'}!%*#?&])[A-Za-z\d@${'$'}!%*#?&]{8,}${'$'}"""
                     field(if (changePassword) "변경할 암호" else "설정할 암호") {
                         numberTextField(
-                            controller.model.password1,
+                            controller.model.swUpdatePassword1,
                             30,
                             regexPasswordValid,
                             password = true,
@@ -43,7 +43,7 @@ fun AdminCenterViewVbox.updateSWPasswordChangeDialog(changePassword: Boolean = t
                     }
                     field("암호 재확인") {
                         numberTextField(
-                            controller.model.password2,
+                            controller.model.swUpdatePassword2,
                             30,
                             regexPasswordValid,
                             password = true,

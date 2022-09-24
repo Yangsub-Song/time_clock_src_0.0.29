@@ -1,10 +1,13 @@
 package com.techrove.timeclock.utils
 
+import com.techrove.timeclock.Settings
 import com.techrove.timeclock.controller.model.Version
 import com.techrove.timeclock.database.Db
 import com.techrove.timeclock.extensions.exec
 import com.techrove.timeclock.isLinux
+import com.techrove.timeclock.security.Key
 import com.techrove.timeclock.security.KeyHelper
+import com.techrove.timeclock.security.decrypt
 import com.techrove.timeclock.server.admin.AdminServer
 import com.techrove.timeclock.utils.UnzipUtils.unzipEncrypted
 import mu.KotlinLogging
@@ -79,7 +82,9 @@ object SwUpdateUtils {
                 UnzipUtils.unzip(src, "./update")
             } else {
                 logger.info { "SW 기밀성 확인..." }
-                if (!src.unzipEncrypted("./update")) {
+                val password = Settings.password.decrypt(Key.pwdKey, "pw")  // Yade0924
+                logger.info { "SW업데이트 암호(in plain text): $password" }     // Yade0924
+                if (!src.unzipEncrypted("./update", password)) {
                     return false to "SW 기밀성 오류가 발생했습니다."
                 }
                 logger.info { "SW 기밀성 정상" }

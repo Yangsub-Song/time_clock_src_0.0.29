@@ -8,8 +8,9 @@ import java.time.LocalDateTime
  */
 object Settings: Preference() {
     private const val VERSION_MAJOR = 0
-    private const val VERSION_MINOR = 0
-    private const val VERSION_PATCH = 30    // Yade20220917
+    private const val VERSION_MINOR = 1
+    private const val VERSION_PATCH = 1     // Yade20220917, 0.0.29->0.0.30
+                                            // Yade20220924, 0.0.30->0.1.1
 
     const val VERSION = "$VERSION_MAJOR.$VERSION_MINOR.$VERSION_PATCH"
 
@@ -33,8 +34,10 @@ object Settings: Preference() {
     var placeCd: String by preference(userPref, "placeCd", "064536")
 
     var password: String by preference(userPref, "password", "")
-
     var passwordRenewedDate: LocalDateTime by preference(userPref, "password_renewed", LocalDateTime.now())
+
+    var swUpdatePassword: String by preference(userPref, "password", "")    // Yade0924
+    var swUpdatePasswordRenewedDate: LocalDateTime by preference(userPref, "password_renewed", LocalDateTime.now())    // Yade0924
 
     var volume: Int by preference(userPref, "volume", 100)
 
