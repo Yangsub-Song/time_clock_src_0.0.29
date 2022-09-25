@@ -55,9 +55,9 @@ fun AdminCenterViewVbox.settingsDialog() {
             }
             hbox(spacing = spacing, alignment = Pos.CENTER) { // Yade0923
                 spacer()
-                textButton("SW업데이트 암호 변경") { updateSWPasswordChangeDialog() }
+                textButton("SW업데이트 암호 변경") { updateSWPasswordChangeDialog() }   // Yade0924
                 spacer()
-                textButton("추가예정1") { showKeyRenewDialog() }
+                textButton("sFTP 암호 변경") { sFTPPasswordChangeDialog() }             // Yade0925
                 spacer()
                 textButton("추가예정2") { checkIntegrityDialog() }
                 spacer()

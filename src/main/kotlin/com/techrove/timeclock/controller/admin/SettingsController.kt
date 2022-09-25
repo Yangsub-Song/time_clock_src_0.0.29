@@ -132,6 +132,19 @@ class SettingsController : BaseController() {
             model.swUpdatePassword2.value = ""
         }
     }
+    // Yade0925
+    fun tryChangeSFTPPassword(): Boolean {
+        return if (model.sFTPPassword1.value != model.sFTPPassword2.value) {
+            false
+        } else {
+            Settings.sFTPPassword = model.sFTPPassword1.value.encrypt(Key.pwdKey, "pw")
+            Settings.sFTPPasswordRenewedDate = LocalDateTime.now()
+            true
+        }.also {
+            model.sFTPPassword1.value = ""
+            model.sFTPPassword2.value = ""
+        }
+    }
     fun restartApp(deleteDb: Boolean = true) {
         if (isLinux) {
             //"/home/linaro/run.sh".runCommand()

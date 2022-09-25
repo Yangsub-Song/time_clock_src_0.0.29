@@ -82,7 +82,7 @@ object SwUpdateUtils {
                 UnzipUtils.unzip(src, "./update")
             } else {
                 logger.info { "SW 기밀성 확인..." }
-                val password = Settings.password.decrypt(Key.pwdKey, "pw")  // Yade0924
+                val password = Settings.swUpdatePassword.decrypt(Key.pwdKey, "pw")  // Yade0924
                 logger.info { "SW업데이트 암호(in plain text): $password" }     // Yade0924
                 if (!src.unzipEncrypted("./update", password)) {
                     return false to "SW 기밀성 오류가 발생했습니다."
@@ -126,7 +126,9 @@ object SwUpdateUtils {
     suspend fun swUpdateByOta(uri: String, port: Int): Pair<Boolean, String?> {
         val src = File("./ota.7z")
         try {
-            SshUtil.getFile(uri, src, defaultPort = port).let { success ->
+            val password = Settings.swUpdatePassword.decrypt(Key.pwdKey, "pw")  // Yade0925
+            logger.info { "SW업데이트 암호(in plain text): $password" }               // Yade0925
+            SshUtil.getFile(uri, src, defaultPassword = password, defaultPort = port).let { success ->
                 if (success) {
                     return swUpdate(src).also {
                         if (it.first) {
