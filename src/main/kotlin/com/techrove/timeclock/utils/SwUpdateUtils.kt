@@ -128,7 +128,8 @@ object SwUpdateUtils {
         try {
             val password = Settings.swUpdatePassword.decrypt(Key.pwdKey, "pw")  // Yade0925
             logger.info { "SW업데이트 암호(in plain text): $password" }               // Yade0925
-            SshUtil.getFile(uri, src, defaultPassword = password, defaultPort = port).let { success ->
+            SshUtil.
+            getFile(uri, src, defaultPassword = password, defaultPort = port).let { success ->
                 if (success) {
                     return swUpdate(src).also {
                         if (it.first) {

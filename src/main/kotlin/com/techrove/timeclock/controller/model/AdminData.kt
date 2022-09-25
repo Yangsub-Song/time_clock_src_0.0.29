@@ -6,6 +6,8 @@ import tornadofx.ItemViewModel
 
 
 class AdminData(terminalId: String, placeCd: String) {
+    val adminHostProperty = SimpleStringProperty(terminalId)        // Yade0925
+    val cwmaHostProperty = SimpleStringProperty(placeCd)            // Yade0925
     val terminalIdProperty = SimpleStringProperty(terminalId)
     val placeCdProperty = SimpleStringProperty(placeCd)
     val passWord1Property = SimpleStringProperty("")
@@ -17,6 +19,8 @@ class AdminData(terminalId: String, placeCd: String) {
 }
 
 class AdminModel : ItemViewModel<AdminData>(AdminData(Settings.terminalId, Settings.placeCd)) {
+    val adminHost = bind(AdminData::adminHostProperty)         // Yade0925
+    val cwmaHost = bind(AdminData::cwmaHostProperty)         // Yade0925
     val terminalId = bind(AdminData::terminalIdProperty)
     val placeCd = bind(AdminData::placeCdProperty)
     val password1 = bind(AdminData::passWord1Property)
@@ -35,6 +39,20 @@ class AdminModel : ItemViewModel<AdminData>(AdminData(Settings.terminalId, Setti
         Settings.placeCd = placeCd.value
     }
 
+    // Yade0925
+    fun isHostURLChanged(): Boolean {
+        return (Settings.adminHost != adminHost.value || Settings.cwmaHost != cwmaHost.value)
+    }
+    // Yade0925
+    fun updateHostURL() {
+        Settings.adminHost = adminHost.value
+        Settings.cwmaHost = cwmaHost.value
+    }
+    // Yade0925
+    fun resetHostURL() {
+        adminHost.value = Settings.adminHost
+        cwmaHost.value = Settings.cwmaHost
+    }
     fun resetDeviceInfo() {
         terminalId.value = Settings.terminalId
         placeCd.value = Settings.placeCd

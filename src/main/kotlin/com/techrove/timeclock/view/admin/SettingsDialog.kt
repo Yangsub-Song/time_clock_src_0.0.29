@@ -59,7 +59,7 @@ fun AdminCenterViewVbox.settingsDialog() {
                 spacer()
                 textButton("sFTP 암호 변경") { sFTPPasswordChangeDialog() }             // Yade0925
                 spacer()
-                textButton("추가예정2") { checkIntegrityDialog() }
+                textButton("URL 주소 변경") { settingHostURLDialog() }                  // Yade0925
                 spacer()
             }
         }
