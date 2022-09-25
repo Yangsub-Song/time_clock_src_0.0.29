@@ -9,6 +9,7 @@ import com.techrove.timeclock.view.custom.timeoutDialog
 import tornadofx.*
 import java.io.File
 import com.techrove.timeclock.security.KeyHelper    // Yade0920
+import com.techrove.timeclock.view.MainView
 import com.techrove.timeclock.view.custom.IconType
 import mu.KotlinLogging
 
@@ -23,12 +24,13 @@ fun AdminCenterViewVbox.showPicturesDialog() {
         logger.info { "무결성 체크 OK(사진보기)" }
     else {
         logger.info { "무결성 체크 Error(사진보기)" }
-        InfoMessage(              // Yade0922
-            "무결성 체크 결과",
-            "무결성 체크 Error(사진보기)",
-            IconType.Error
-//            imageFile = photoProperty.value
-        )
+        find(MainView::class).showIntegrityErrorDialog()   // Yade0926
+//        InfoMessage(              // Yade0922
+//            "무결성 체크 결과",
+//            "무결성 체크 Error(사진보기)",
+//            IconType.Error
+////            imageFile = photoProperty.value
+//        )
         return@showPicturesDialog
     }
     val controller = find(PictureController::class)

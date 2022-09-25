@@ -11,11 +11,13 @@ import com.techrove.timeclock.extensions.onChangeTrue
 import com.techrove.timeclock.io.Audio
 import com.techrove.timeclock.io.RfReader
 import com.techrove.timeclock.security.Key
+import com.techrove.timeclock.security.KeyHelper
 import com.techrove.timeclock.security.encrypt
 import com.techrove.timeclock.server.cwma.CwmaServer
 import com.techrove.timeclock.server.cwma.model.req.CardAuthRequest
 import com.techrove.timeclock.server.cwma.model.req.FingerAuthRequest
 import com.techrove.timeclock.utils.playAudio
+import com.techrove.timeclock.view.MainView
 import com.techrove.timeclock.view.custom.IconType
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -65,6 +67,14 @@ fun MainController.initGetOffWork() {
     // 퇴근
     ///////////////////////////////////////////////////////////////////////////
     getOffWorkProperty.onChange {
+        // 키 유효성 체크. UI 처리는 MainView 에서 함.
+        if (KeyHelper.checkKeyIntegrity()) // Yade0916, Yade0926
+            logger.info { "무결성 체크 OK(온라인지문 인증 출근)" }
+        else {
+            logger.info { "무결성 체크 Error(온라인지문 인증 출근)" }
+            find(MainView::class).showIntegrityErrorDialog()   // Yade0926
+            return@onChange
+        }
         if (it) {
             photoProperty.value = null
             Audio.play("퇴근 카드를 태그하시거나 지문을 스캔해 주세요.wav")
@@ -156,6 +166,14 @@ fun MainController.initGetOffWork() {
     }
 
     getOffWorkByFingerProperty.onChangeTrue {
+        // 키 유효성 체크. UI 처리는 MainView 에서 함.
+        if (KeyHelper.checkKeyIntegrity()) // Yade0916, Yade0926
+            logger.info { "무결성 체크 OK(온라인지문 인증 출근)" }
+        else {
+            logger.info { "무결성 체크 Error(온라인지문 인증 출근)" }
+            find(MainView::class).showIntegrityErrorDialog()   // Yade0926
+            return@onChangeTrue
+        }
         launch {
             getOffWorkByFinger = false
             var request: FingerAuthRequest? = null

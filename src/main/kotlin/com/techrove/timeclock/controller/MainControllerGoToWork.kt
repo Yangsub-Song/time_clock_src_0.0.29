@@ -1,5 +1,6 @@
 package com.techrove.timeclock.controller
 
+import com.techrove.timeclock.view.MainView             // Yade0926
 import com.techrove.timeclock.Settings
 import com.techrove.timeclock.controller.model.InfoMessage
 import com.techrove.timeclock.database.TimeSheet
@@ -129,12 +130,13 @@ fun MainController.initGotoWork() {
             logger.info { "무결성 체크 OK(온라인카드 인증 출근)" }
         else {
             logger.info { "무결성 체크 Error(온라인카드 인증 출근)" }
-            infoMessage = InfoMessage(              // Yade0922
-                "무결성 체크 결과",
-                "무결성 체크 Error(온라인카드 인증 출근)",
-                IconType.Error,
-                imageFile = photoProperty.value
-            )
+            find(MainView::class).showIntegrityErrorDialog()   // Yade0926
+//            infoMessage = InfoMessage(              // Yade0922
+//                "무결성 체크 결과",
+//                "무결성 체크 Error(온라인카드 인증 출근)",
+//                IconType.Error,
+//                imageFile = photoProperty.value
+//            )
             return@onChange
         }
         if (it) {
@@ -233,6 +235,7 @@ fun MainController.initGotoWork() {
             logger.info { "무결성 체크 OK(온라인지문 인증 출근)" }
         else {
             logger.info { "무결성 체크 Error(온라인지문 인증 출근)" }
+            find(MainView::class).showIntegrityErrorDialog()   // Yade0926
             return@onChangeTrue
         }
         launch {

@@ -73,7 +73,7 @@ class MainView : View("TimeClock") {
         firstDock = false
     }
 
-    private fun showIntegrityErrorDialog() {
+    fun showIntegrityErrorDialog() {     // Yade0926 private => ' '
         timeoutDialog(
             "오류",
             when {

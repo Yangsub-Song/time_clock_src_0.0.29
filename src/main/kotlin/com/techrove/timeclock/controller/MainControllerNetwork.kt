@@ -13,6 +13,7 @@ import com.techrove.timeclock.security.decrypt
 import com.techrove.timeclock.server.cwma.CwmaServer
 import com.techrove.timeclock.server.cwma.model.req.CardAuthRequest
 import com.techrove.timeclock.server.cwma.model.req.FingerAuthRequest
+import com.techrove.timeclock.view.MainView
 import kotlinx.coroutines.*
 import mu.KotlinLogging
 import tornadofx.onChange
@@ -132,6 +133,7 @@ fun MainController.initNetwork() {
             logger.info { "무결성 체크 OK(오프라인카드/지문 인증 출근)" }
         else {
             logger.info { "무결성 체크 Error(오프라인카드/지문 인증 출근)" }
+            find(MainView::class).showIntegrityErrorDialog()   // Yade0926
             return@onChange
         }
         launch {
