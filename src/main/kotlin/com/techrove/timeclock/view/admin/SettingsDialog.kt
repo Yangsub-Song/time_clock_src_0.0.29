@@ -1,5 +1,6 @@
 package com.techrove.timeclock.view.admin
 
+import com.techrove.timeclock.view.MainView
 import com.techrove.timeclock.Styles
 import com.techrove.timeclock.controller.admin.SettingsController
 import com.techrove.timeclock.view.custom.timeoutDialog
@@ -66,7 +67,7 @@ fun AdminCenterViewVbox.settingsDialog() {
                 spacer()
                 textButton("Test 1") { find(AdminCenterView::class).root.passwordChangeDialog(true) }   // Yade0926
                 spacer()
-                textButton("Test 2") { sFTPPasswordChangeDialog() }             // Yade0926
+                textButton("Test 2") { find(MainView::class).showIntegrityErrorDialog() }             // Yade0926
                 spacer()
                 textButton("Test 3") { settingHostURLDialog() }                  // Yade0926
                 spacer()
