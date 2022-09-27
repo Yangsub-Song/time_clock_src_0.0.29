@@ -80,7 +80,7 @@ fun AdminCenterViewVbox.updateSWPasswordChangeDialog(changePassword: Boolean = t
 }
 
 fun AdminCenterViewVbox.initUpdateSWPasswordChange() {
-    if (Settings.password.isEmpty()) {
+    if (Settings.swUpdatePassword.isEmpty()) {
         runLater { updateSWPasswordChangeDialog(false) }
     }
 }

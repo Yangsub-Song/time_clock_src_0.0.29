@@ -60,7 +60,8 @@ fun MainController.initNetwork() {
                 while (!serverOn) {
                     try {
                         logger.info { "보안키등록확인" }
-                        CwmaServer.key = Settings.DEFAULT_KEY
+//                        CwmaServer.key = Settings.DEFAULT_KEY     // Yade0927 없어도 될 듯...
+                        CwmaServer.key = "0xFF"
                         CwmaServer.service.보안키등록확인().let { res ->
                             logger.trace { res }
                             if (res.result.isOk) {
@@ -129,9 +130,9 @@ fun MainController.initNetwork() {
         if (!on) return@onChange
 
         // 키 유효성 체크. UI 처리는 MainView 에서 함.
-        if (KeyHelper.checkKeyIntegrity()) // Yade0916
+        if (KeyHelper.checkKeyIntegrity()) { // Yade0916
             logger.info { "무결성 체크 OK(오프라인카드/지문 인증 출근)" }
-        else {
+        } else {
             logger.info { "무결성 체크 Error(오프라인카드/지문 인증 출근)" }
             find(MainView::class).showIntegrityErrorDialog()   // Yade0926
             return@onChange

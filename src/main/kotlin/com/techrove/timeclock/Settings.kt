@@ -17,7 +17,7 @@ object Settings: Preference() {
 
     const val VERSION = "$VERSION_MAJOR.$VERSION_MINOR.$VERSION_PATCH"
 
-    const val DEFAULT_KEY = "AQIDBAUGBwgJCgsMDQ4PEBESExQVFhcYGRobHB0eHyA="
+//    const val DEFAULT_KEY = "AQIDBAUGBwgJCgsMDQ4PEBESExQVFhcYGRobHB0eHyA="  // Yade0927
 
     const val PASSWORD_VALID_YEAR = 2L
 
@@ -29,8 +29,8 @@ object Settings: Preference() {
     // var adminHost: String by preference(userPref, "adminHost", "http://aplexcorp.iptime.org")
     var adminHost: String by preference(userPref, "adminHost", "http://aplexcorp.iptime.org")
 
-    const val ADMIN_KEY = "WnZr4u7x!A%D*G-K"
-
+//    const val ADMIN_KEY = "WnZr4u7x!A%D*G-K"
+    var ADMIN_KEY: String by preference(userPref, "ADMIN_KEY", "")  // Yade0927
     var cwmaHost: String by preference(userPref, "cwmaHost", "https://test_ecard.cwma.or.kr")
 
     // Yade0925
@@ -42,10 +42,10 @@ object Settings: Preference() {
     var password: String by preference(userPref, "password", "")
     var passwordRenewedDate: LocalDateTime by preference(userPref, "password_renewed", LocalDateTime.now())
 
-    var swUpdatePassword: String by preference(userPref, "password", "")                                    // Yade0924
-    var swUpdatePasswordRenewedDate: LocalDateTime by preference(userPref, "password_renewed", LocalDateTime.now())    // Yade0924
-    var sFTPPassword: String by preference(userPref, "password", "")                                         // Yade0925
-    var sFTPPasswordRenewedDate: LocalDateTime by preference(userPref, "password_renewed", LocalDateTime.now())        // Yade0925
+    var swUpdatePassword: String by preference(userPref, "swUpdatePassword", "")                                    // Yade0924
+    var swUpdatePasswordRenewedDate: LocalDateTime by preference(userPref, "swUpdatePassword_renewed", LocalDateTime.now())    // Yade0924
+    var sFTPPassword: String by preference(userPref, "sFTPPassword", "")                                         // Yade0925
+    var sFTPPasswordRenewedDate: LocalDateTime by preference(userPref, "sFTPPassword_renewed", LocalDateTime.now())        // Yade0925
 
     var volume: Int by preference(userPref, "volume", 100)
 

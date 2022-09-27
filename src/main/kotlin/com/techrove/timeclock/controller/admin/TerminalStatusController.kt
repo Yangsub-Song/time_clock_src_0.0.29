@@ -48,7 +48,7 @@ class TerminalStatusController: BaseController() {
             var ok = false
             try {
                 logger.info { "보안키등록확인" }
-                CwmaServer.key = Settings.DEFAULT_KEY
+//                CwmaServer.key = Settings.DEFAULT_KEY   // Yade0927
                 CwmaServer.service.보안키등록확인().let { res ->
                     logger.trace { res }
                     if (res.result.isOk) {

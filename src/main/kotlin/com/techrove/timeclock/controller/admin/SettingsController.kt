@@ -124,7 +124,7 @@ class SettingsController : BaseController() {
         return if (model.swUpdatePassword1.value != model.swUpdatePassword2.value) {
             false
         } else {
-            Settings.swUpdatePassword = model.swUpdatePassword1.value.encrypt(Key.pwdKey, "pw")
+            Settings.swUpdatePassword = model.swUpdatePassword1.value.encrypt(Key.pwdSUKey, "pw")
             Settings.swUpdatePasswordRenewedDate = LocalDateTime.now()
             true
         }.also {
@@ -137,7 +137,7 @@ class SettingsController : BaseController() {
         return if (model.sFTPPassword1.value != model.sFTPPassword2.value) {
             false
         } else {
-            Settings.sFTPPassword = model.sFTPPassword1.value.encrypt(Key.pwdKey, "pw")
+            Settings.sFTPPassword = model.sFTPPassword1.value.encrypt(Key.pwdSFKey, "pw")
             Settings.sFTPPasswordRenewedDate = LocalDateTime.now()
             true
         }.also {

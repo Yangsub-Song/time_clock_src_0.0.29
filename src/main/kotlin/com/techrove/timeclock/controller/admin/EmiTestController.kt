@@ -46,7 +46,7 @@ class EmiTestController: BaseController() {
             while (isActive) {
                 try {
                     logger.info { "1. LTE 라우터" }
-                    CwmaServer.key = Settings.DEFAULT_KEY
+//                    CwmaServer.key = Settings.DEFAULT_KEY   // Yade0927
                     CwmaServer.service.보안키등록확인().let { res ->
                         logger.trace { res }
                         if (res.result.isOk) {

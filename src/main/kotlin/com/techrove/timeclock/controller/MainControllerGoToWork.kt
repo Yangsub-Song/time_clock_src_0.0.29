@@ -126,9 +126,9 @@ fun MainController.initGotoWork() {
     ///////////////////////////////////////////////////////////////////////////
     gotoWorkProperty.onChange {
         // 키 유효성 체크. UI 처리는 MainView 에서 함.
-        if (KeyHelper.checkKeyIntegrity()) // Yade0916
+        if (KeyHelper.checkKeyIntegrity()) { // Yade0916
             logger.info { "무결성 체크 OK(온라인카드 인증 출근)" }
-        else {
+        } else {
             logger.info { "무결성 체크 Error(온라인카드 인증 출근)" }
             find(MainView::class).showIntegrityErrorDialog()   // Yade0926
 //            infoMessage = InfoMessage(              // Yade0922
@@ -231,9 +231,9 @@ fun MainController.initGotoWork() {
 
     gotoWorkByFingerProperty.onChangeTrue {
         // 키 유효성 체크. UI 처리는 MainView 에서 함.
-        if (KeyHelper.checkKeyIntegrity()) // Yade0916
+        if (KeyHelper.checkKeyIntegrity()) { // Yade0916
             logger.info { "무결성 체크 OK(온라인지문 인증 출근)" }
-        else {
+        } else {
             logger.info { "무결성 체크 Error(온라인지문 인증 출근)" }
             find(MainView::class).showIntegrityErrorDialog()   // Yade0926
             return@onChangeTrue

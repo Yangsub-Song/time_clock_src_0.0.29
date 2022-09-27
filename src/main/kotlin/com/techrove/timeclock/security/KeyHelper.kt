@@ -17,6 +17,8 @@ object Key {
     var tmsKey = byteArrayOf()
     var photoKey = byteArrayOf()
     var pwdKey = byteArrayOf()
+    var pwdSUKey = byteArrayOf()
+    var pwdSFKey = byteArrayOf()
     var idsnKey = byteArrayOf()
     var cardKey = byteArrayOf()
     var fingerKey = byteArrayOf()
@@ -126,6 +128,8 @@ object KeyHelper {
         masterKey = Cipher.parseMasterKey(masterKeyEnc)
 
         Key.pwdKey = checkIntegrityWithMasterKey("pwd") ?: return false
+        Key.pwdSUKey = checkIntegrityWithMasterKey("pwd") ?: return false       // Yade0927
+        Key.pwdSFKey = checkIntegrityWithMasterKey("pwd") ?: return false       // Yade0927
         Key.tmsKey = checkIntegrityWithMasterKey("tms") ?: return false
         Key.photoKey = checkIntegrityWithMasterKey("photo") ?: return false
         Key.idsnKey = checkIntegrityWithMasterKey("idsn") ?: return false
@@ -170,6 +174,8 @@ object KeyHelper {
         Key.tmsKey = createKeyWithMasterKey("tms") ?: return false
         Key.photoKey = createKeyWithMasterKey("photo") ?: return false
         Key.pwdKey = createKeyWithMasterKey("pwd") ?: return false
+        Key.pwdSUKey = createKeyWithMasterKey("pwd") ?: return false       // Yade0927
+        Key.pwdSFKey = createKeyWithMasterKey("pwd") ?: return false       // Yade0927
         Key.idsnKey = createKeyWithMasterKey("idsn") ?: return false
         Key.cardKey = createKeyWithMasterKey("card") ?: return false
         Key.fingerKey = createKeyWithMasterKey("finger") ?: return false

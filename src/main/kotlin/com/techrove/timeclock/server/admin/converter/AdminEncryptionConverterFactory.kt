@@ -56,7 +56,7 @@ private class AES256Util {
     }
 
     /**
-     * AES256으로 암호화된 txt 를 복호화한다.
+     * AES256으로 암호화된 txt를 복호화한다.
      */
     @Throws(
         NoSuchAlgorithmException::class,
@@ -71,7 +71,8 @@ private class AES256Util {
     }
 
     companion object {
-        const val key = Settings.ADMIN_KEY
+//        const val key = Settings.ADMIN_KEY
+        var key = Settings.ADMIN_KEY    // Yade0927
     }
 }
 
