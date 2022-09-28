@@ -64,7 +64,7 @@ private class AES256Util {
         UnsupportedEncodingException::class
     )
     fun decrypt(str: String): String {
-        logger.trace("DEC key:${key} iv:${iv}")
+        logger.trace("DEC key(Yade0928):${key} iv:${iv}")
         cipher.init(Cipher.DECRYPT_MODE, keySpec, IvParameterSpec(iv.toByteArray()))
         val byteStr: ByteArray = Base64.getDecoder().decode(str.toByteArray())
         return String(cipher.doFinal(byteStr), StandardCharsets.UTF_8)

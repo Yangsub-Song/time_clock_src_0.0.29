@@ -60,8 +60,7 @@ fun MainController.initNetwork() {
                 while (!serverOn) {
                     try {
                         logger.info { "보안키등록확인" }
-//                        CwmaServer.key = Settings.DEFAULT_KEY     // Yade0927 없어도 될 듯...
-                        CwmaServer.key = "0xFF"
+                        CwmaServer.key = Settings.DEFAULT_KEY     // Yade0927 없어도 될 듯...
                         CwmaServer.service.보안키등록확인().let { res ->
                             logger.trace { res }
                             if (res.result.isOk) {

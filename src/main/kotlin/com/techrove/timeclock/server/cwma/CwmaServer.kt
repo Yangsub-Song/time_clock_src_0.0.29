@@ -32,8 +32,7 @@ object CwmaServer {
 
     init {
         try {
-//            key = Settings.DEFAULT_KEY // Yade0927
-            key = "0xFF" // Yade0928
+            key = Settings.DEFAULT_KEY // Yade0927
         } catch (_: Exception) {
 	        // 초기 SW 유효성 오류시 encryption key null exception 처리
             // NOTE: unhandled exception 은 DefaultErrorHandler 에서 처리하나
