@@ -44,9 +44,9 @@ class EmiTestController: BaseController() {
         job?.cancel()
         job = launch(Dispatchers.IO) {
             while (isActive) {
-                try {
+                try {     // Yade0929
                     logger.info { "1. LTE 라우터" }
-                    CwmaServer.key = Settings.DEFAULT_KEY   // Yade0927
+                    CwmaServer.key = Settings.DEFAULT_KEY//_DEC   // Yade0927, 0930
                     CwmaServer.service.보안키등록확인().let { res ->
                         logger.trace { res }
                         if (res.result.isOk) {
@@ -71,6 +71,7 @@ class EmiTestController: BaseController() {
                     }
                     Suprema.scanTemplate()
                     wait()
+
 
                     logger.info { "5. 온도 센서" }
                     TempSensor.checkHw()

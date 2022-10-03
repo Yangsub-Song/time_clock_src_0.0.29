@@ -1,7 +1,6 @@
 package com.techrove.timeclock.view.admin
 
 import com.techrove.timeclock.controller.admin.PictureController
-import com.techrove.timeclock.controller.model.InfoMessage
 import com.techrove.timeclock.extensions.imageViewEncrypted
 import com.techrove.timeclock.io.Audio
 import com.techrove.timeclock.security.Key

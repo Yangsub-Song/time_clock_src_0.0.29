@@ -72,7 +72,7 @@ private class AES256Util {
 
     companion object {
 //        const val key = Settings.ADMIN_KEY
-        var key = Settings.ADMIN_KEY    // Yade0927
+        var key = Settings.ADMIN_KEY
     }
 }
 

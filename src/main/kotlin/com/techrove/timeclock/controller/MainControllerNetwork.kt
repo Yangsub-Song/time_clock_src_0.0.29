@@ -59,8 +59,8 @@ fun MainController.initNetwork() {
             serverMonitorJob = launch {
                 while (!serverOn) {
                     try {
-                        logger.info { "보안키등록확인" }
-                        CwmaServer.key = Settings.DEFAULT_KEY     // Yade0927 없어도 될 듯...
+                        logger.info { "보안키등록확인(서버 상태 모니터링...)" }
+                        CwmaServer.key = Settings.DEFAULT_KEY // _DEC
                         CwmaServer.service.보안키등록확인().let { res ->
                             logger.trace { res }
                             if (res.result.isOk) {
@@ -230,4 +230,3 @@ fun MainController.initNetwork() {
         }
     }
 }
-

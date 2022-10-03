@@ -46,9 +46,9 @@ class TerminalStatusController: BaseController() {
         job?.cancel()
         job = launch(Dispatchers.IO) {
             var ok = false
-            try {
-                logger.info { "보안키등록확인" }
-                CwmaServer.key = Settings.DEFAULT_KEY   // Yade0927
+            try {     // Yade0929
+                logger.info { "보안키등록확인(기기 체크)" }
+                CwmaServer.key = Settings.DEFAULT_KEY //_DEC   // Yade0927, 0930
                 CwmaServer.service.보안키등록확인().let { res ->
                     logger.trace { res }
                     if (res.result.isOk) {

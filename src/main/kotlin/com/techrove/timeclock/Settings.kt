@@ -9,18 +9,18 @@ import java.time.LocalDateTime
 object Settings: Preference() {
     private const val VERSION_MAJOR = 0
     private const val VERSION_MINOR = 1
-    private const val VERSION_PATCH = 51     // Yade20220917, 0.0.29->0.0.30
+    private const val VERSION_PATCH = 52    // Yade20220917, 0.0.29->0.0.30
                                             // Yade20220924, 0.0.30->0.1.1  - SW 업데이트 암호 변경
                                             // Yade20220925, 0.0.30->0.1.2  - sFTP 암호 변경
                                             // Yade20220925, 0.0.30->0.1.3  - terminalId, placeId, adminHost, cwmaHost 하드코딩 제거
                                             // Yade20220926, 0.0.30->0.1.4  - 무결성 체크 후 에러 시, showIntegrityErrorDialog() 표시
-                                            // Yade20220928, 0.0.30->0.1.5  - ADMIN_KEY, DEFAULT_KEY 하드코딩 제거
+                                            // Yade20220928, 0.0.30->0.1.5  - ADMIN_KEY, DEFAULT_KEY 하드코딩 제거 without encrption
+                                            // Yade20220930, 0.0.30->0.1.52  - ADMIN_KEY, DEFAULT_KEY - 암호화해서 prefs.xml에 보관한 뒤, 프로그램에서 읽어 복호화한 후 키로 사용
 
     const val VERSION = "$VERSION_MAJOR.$VERSION_MINOR.$VERSION_PATCH"
 
-    //const val DEFAULT_KEY = "AQIDBAUGBwgJCgsMDQ4PEBESExQVFhcYGRobHB0eHyA="  // Yade0927
-    var DEFAULT_KEY: String by preference(userPref, "DEFAULT_KEY", "")  // Yade0928
-
+    var DEFAULT_KEY = "" // ""AQIDBAUGBwgJCgsMDQ4PEBESExQVFhcYGRobHB0eHyA="
+    var DEFAULT_KEY_ENC: String by preference(userPref, "DEFAULT_KEY_ENC", "")
     const val PASSWORD_VALID_YEAR = 2L
 
     const val KEY_VALID_YEAR = 2L
@@ -28,18 +28,20 @@ object Settings: Preference() {
     const val INTEGRITY_CHECK_HOURS = 24L
 
     //var adminHost: String by preference(userPref, "adminHost", "http://testing.centrali.co.kr")
-    // var adminHost: String by preference(userPref, "adminHost", "http://aplexcorp.iptime.org")
-    var adminHost: String by preference(userPref, "adminHost", "http://aplexcorp.iptime.org")
+//    var adminHost: String by preference(userPref, "adminHost", "http://aplexcorp.iptime.org")
+    //    var adminHost: String by preference(userPref, "adminHost", "http://aplexcorp.iptime.org")
+    var adminHost: String by preference(userPref, "adminHost", "http://ez-m.co.kr")
 
 //    const val ADMIN_KEY = "WnZr4u7x!A%D*G-K"
-    var ADMIN_KEY: String by preference(userPref, "ADMIN_KEY", "")  // Yade0927
+    var ADMIN_KEY = "" // ""WnZr4u7x!A%D*G-K"
+    var ADMIN_KEY_ENC: String by preference(userPref, "ADMIN_KEY_ENC", "")  // Yade0927
     var cwmaHost: String by preference(userPref, "cwmaHost", "https://test_ecard.cwma.or.kr")
 
     // Yade0925
-//    var terminalId: String by preference(userPref, "terminalId", "100103970101713715177")
-//    var placeCd: String by preference(userPref, "placeCd", "064536")
-    var terminalId: String by preference(userPref, "terminalId", "")
-    var placeCd: String by preference(userPref, "placeCd", "")
+    var terminalId: String by preference(userPref, "terminalId", "100103970101713715177")
+    var placeCd: String by preference(userPref, "placeCd", "064536")
+//    var terminalId: String by preference(userPref, "terminalId", "")
+//    var placeCd: String by preference(userPref, "placeCd", "")
 
     var password: String by preference(userPref, "password", "")
     var passwordRenewedDate: LocalDateTime by preference(userPref, "password_renewed", LocalDateTime.now())

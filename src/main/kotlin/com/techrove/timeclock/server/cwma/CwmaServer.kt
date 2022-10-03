@@ -1,6 +1,7 @@
 package com.techrove.timeclock.server.cwma
 
 import com.techrove.timeclock.Settings
+import com.techrove.timeclock.security.Cipher
 import com.techrove.timeclock.security.KeyHelper
 import com.techrove.timeclock.security.encrypt
 import com.techrove.timeclock.server.cwma.converter.CwmaEncryptionConverterFactory
@@ -28,17 +29,17 @@ object CwmaServer {
         }
     var version: String? = null
 
-    private val encryptionConverterFactory = CwmaEncryptionConverterFactory()
-
-    init {
-        try {
-            key = Settings.DEFAULT_KEY // Yade0927
-        } catch (_: Exception) {
-	        // 초기 SW 유효성 오류시 encryption key null exception 처리
-            // NOTE: unhandled exception 은 DefaultErrorHandler 에서 처리하나
-            // network key 는 init 에서 초기화 하므로 error handler 에서 처리 불가
+    private val encryptionConverterFactory = CwmaEncryptionConverterFactory()  // Commented out by Yade0929
+        init {
+            try {
+//                Settings.DEFAULT_KEY_DEC = "AQIDBAUGBwgJCgsMDQ4PEBESExQVFhcYGRobHB0eHyA="
+                key =  Settings.DEFAULT_KEY //_DEC // Yade0927, 0930
+            } catch (_: Exception) {
+                // 초기 SW 유효성 오류시 encryption key null exception 처리
+                // NOTE: unhandled exception 은 DefaultErrorHandler 에서 처리하나
+                // network key 는 init 에서 초기화 하므로 error handler 에서 처리 불가
+            }
         }
-    }
 
     val service: CwmaService by lazy {
         val logging = HttpLoggingInterceptor().apply {
