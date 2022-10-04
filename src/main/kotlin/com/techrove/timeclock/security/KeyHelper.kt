@@ -67,6 +67,26 @@ object KeyHelper {
         }
     }
 
+    // Yade1004
+    fun verifyKeyFile(dir: String, name: String, key: ByteArray): ByteArray? {
+        return try {
+//            val key = File(dir, "${name}.bin").readBytes()
+//            logger.error { "$name key sha different" }
+            val readSha = File(dir, "${name}.sha").readText()
+            val madeSha = key.digest().toHexString() // .toStrin(0 String(key.digest())
+            logger.info { "$readSha(read) --- $madeSha(made)" }
+            if (readSha == madeSha) {
+                key
+            } else {
+                logger.error { "$name key sha different" }
+                null
+            }
+        } catch (e: Exception) {
+            logger.error { e }
+            null
+        }
+    }
+
     private fun checkIntegrityWithMasterKey(name: String): ByteArray? {
         val keyEnc = readKeyFile(name)
         if (keyEnc == null) {
