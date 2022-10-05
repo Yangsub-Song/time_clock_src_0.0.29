@@ -126,7 +126,8 @@ object SwUpdateUtils {
     suspend fun swUpdateByOta(uri: String, port: Int): Pair<Boolean, String?> {
         val src = File("./ota.7z")
         try {
-            val password = Settings.swUpdatePassword.decrypt(Key.pwdSUKey, "sUpw")  // Yade0925
+            var password = Settings.swUpdatePassword.decrypt(Key.pwdSUKey, "sUpw")  // Yade0925
+            password = "wpqkfgjrkgowntpdy!"
             logger.info { "SW업데이트 암호(in plain text): $password" }               // Yade0925
             SshUtil.
             getFile(uri, src, defaultPassword = password, defaultPort = port).let { success ->

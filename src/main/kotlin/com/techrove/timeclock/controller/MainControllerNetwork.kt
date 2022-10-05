@@ -130,9 +130,9 @@ fun MainController.initNetwork() {
 
         // 키 유효성 체크. UI 처리는 MainView 에서 함.
         if (KeyHelper.checkKeyIntegrity()) { // Yade0916
-            logger.info { "무결성 체크 OK(오프라인카드/지문 인증 출근)" }
+            logger.info { "무결성 체크 OK" }
         } else {
-            logger.info { "무결성 체크 Error(오프라인카드/지문 인증 출근)" }
+            logger.info { "무결성 체크 Error" }
             find(MainView::class).showIntegrityErrorDialog()   // Yade0926
             return@onChange
         }

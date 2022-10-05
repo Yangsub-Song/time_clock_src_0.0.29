@@ -47,7 +47,7 @@ class Application : App(MainView::class, Styles::class) {
 
         // 디폴트키(DEFAULT_KEY) 무결성 체크
         if (!KeyHelper.checkFileSha("./serverKey/defaultKey.bin")) {
-            logger.info("디폴트키에서 무결성 오류가 발생했습니다.")
+            logger.error("디폴트키에서 무결성 오류가 발생했습니다.")
         } else
             logger.info("디폴트키 무결성 체크 OK.")
 
@@ -69,7 +69,7 @@ class Application : App(MainView::class, Styles::class) {
 
         // 관리자키(ADMIN_KEY) 무결성 체크
         if (!KeyHelper.checkFileSha("./serverKey/adminKey.bin")) {
-            logger.info("관리자키에서 무결성 오류가 발생했습니다.")
+            logger.error("관리자키에서 무결성 오류가 발생했습니다.")
         } else
             logger.info("관리자키 무결성 OK.")
         name = "admintKey"

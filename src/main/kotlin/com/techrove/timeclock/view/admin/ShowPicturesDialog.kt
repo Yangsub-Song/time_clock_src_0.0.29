@@ -20,7 +20,7 @@ private val logger = KotlinLogging.logger("MainController") // Yade0920
 fun AdminCenterViewVbox.showPicturesDialog() {
     // 키 유효성 체크. UI 처리는 MainView 에서 함.
     if (KeyHelper.checkKeyIntegrity()) // Yade0920
-        logger.info { "무결성 체크 OK(사진보기)" }
+        logger.info { "무결성 체크 OK" }
     else {
         logger.info { "무결성 체크 Error(사진보기)" }
         find(MainView::class).showIntegrityErrorDialog()   // Yade0926

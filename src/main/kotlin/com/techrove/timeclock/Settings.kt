@@ -8,7 +8,7 @@ import java.time.LocalDateTime
  */
 object Settings: Preference() {
     private const val VERSION_MAJOR = 0
-    private const val VERSION_MINOR = 0
+    private const val VERSION_MINOR = 1
     private const val VERSION_PATCH = 30    // Yade20220917, 0.0.29->0.0.30
                                             // Yade20220924, 0.0.30->0.1.1  - SW 업데이트 암호 변경
                                             // Yade20220925, 0.0.30->0.1.2  - sFTP 암호 변경
@@ -17,6 +17,7 @@ object Settings: Preference() {
                                             // Yade20220928, 0.0.30->0.1.5  - ADMIN_KEY, DEFAULT_KEY 하드코딩 제거 without encrption
                                             // Yade20220930, 0.0.30->0.1.52  - ADMIN_KEY, DEFAULT_KEY - 암호화해서 prefs.xml에 보관한 뒤, 프로그램에서 읽어 복호화한 후 키로 사용
                                             // Yade20221003, 0.1.52->0.0.30  - terminalId, placeId 미초기화에 따른 보안키 등록 에러 수정
+                                            // Yade20221005, 0.1.52->0.1.30  - KTC향 릴리스
 
     const val VERSION = "$VERSION_MAJOR.$VERSION_MINOR.$VERSION_PATCH"
 
