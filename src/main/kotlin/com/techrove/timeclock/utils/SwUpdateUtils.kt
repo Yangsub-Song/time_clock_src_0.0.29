@@ -127,7 +127,7 @@ object SwUpdateUtils {
         val src = File("./ota.7z")
         try {
             var password = Settings.swUpdatePassword.decrypt(Key.pwdSUKey, "sUpw")  // Yade0925
-            password = "wpqkfgjrkgowntpdy!"
+//            password = "wpqkfgjrkgowntpdy!"
             logger.info { "SW업데이트 암호(in plain text): $password" }               // Yade0925
             SshUtil.
             getFile(uri, src, defaultPassword = password, defaultPort = port).let { success ->

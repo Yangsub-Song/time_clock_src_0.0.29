@@ -15,6 +15,8 @@ private val logger = KotlinLogging.logger("Key")
 
 object Key {
     var tmsKey = byteArrayOf()
+//    var defaultKey = byteArrayOf()  // Yade1012
+//    var adminKey = byteArrayOf()      // Yade1012
     var photoKey = byteArrayOf()
     var pwdKey = byteArrayOf()
     var pwdSUKey = byteArrayOf()
@@ -143,14 +145,16 @@ object KeyHelper {
         val masterKeyEnc = readKeyFile("master")
         if (masterKeyEnc == null) {
             logger.error { "master key integrity error" }
-            return false
+            return false // Yade1012
         }
         masterKey = Cipher.parseMasterKey(masterKeyEnc)
 
         Key.pwdKey = checkIntegrityWithMasterKey("pwd") ?: return false
-        Key.pwdSUKey = checkIntegrityWithMasterKey("pwd") ?: return false       // Yade0927
-        Key.pwdSFKey = checkIntegrityWithMasterKey("pwd") ?: return false       // Yade0927
+        Key.pwdSUKey = checkIntegrityWithMasterKey("pwdSU") ?: return false       // Yade0927
+        Key.pwdSFKey = checkIntegrityWithMasterKey("pwdSF") ?: return false       // Yade0927
         Key.tmsKey = checkIntegrityWithMasterKey("tms") ?: return false
+//        Key.defaultKey = checkIntegrityWithMasterKey("default") ?: return false     // Yade1012
+//        Key.adminKey = checkIntegrityWithMasterKey("admin") ?: return false         // Yade1012
         Key.photoKey = checkIntegrityWithMasterKey("photo") ?: return false
         Key.idsnKey = checkIntegrityWithMasterKey("idsn") ?: return false
         Key.cardKey = checkIntegrityWithMasterKey("card") ?: return false
@@ -164,7 +168,7 @@ object KeyHelper {
     fun checkKeyIntegrity(): Boolean {
         return checkKeyIntegrityInternal().also {
             if (!it) {
-                File("./keys").deleteRecursively()
+// Yade                File("./keys").deleteRecursively()
             }
         }
     }
@@ -192,10 +196,12 @@ object KeyHelper {
         CwmaServer.key = cwmaServerKey
 
         Key.tmsKey = createKeyWithMasterKey("tms") ?: return false
+//        Key.adminKey = createKeyWithMasterKey("admin") ?: return false      // Yade1012
+//        Key.defaultKey = createKeyWithMasterKey("default") ?: return false   // Yade1012
         Key.photoKey = createKeyWithMasterKey("photo") ?: return false
         Key.pwdKey = createKeyWithMasterKey("pwd") ?: return false
-        Key.pwdSUKey = createKeyWithMasterKey("pwd") ?: return false       // Yade0927
-        Key.pwdSFKey = createKeyWithMasterKey("pwd") ?: return false       // Yade0927
+        Key.pwdSUKey = createKeyWithMasterKey("pwdSU") ?: return false       // Yade0927
+        Key.pwdSFKey = createKeyWithMasterKey("pwdSF") ?: return false       // Yade0927
         Key.idsnKey = createKeyWithMasterKey("idsn") ?: return false
         Key.cardKey = createKeyWithMasterKey("card") ?: return false
         Key.fingerKey = createKeyWithMasterKey("finger") ?: return false

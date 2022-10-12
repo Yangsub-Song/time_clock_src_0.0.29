@@ -38,6 +38,14 @@ class MainController : BaseController(Dispatchers.IO) {
     val passwordModel = PasswordModel(Password())
     var password by passwordModel.password
 
+    /** sw업데이트 암호 입력 model */
+    val swUpdatePasswordModel = PasswordModel(Password())
+    var swUpdatePassword by swUpdatePasswordModel.password
+
+    /** sFTP 암호 입력 model */
+    val sFTPPasswordModel = PasswordModel(Password())
+    var sFTPPassword by passwordModel.password
+
     /** network on/off property */
     val networkOnProperty = false.toProperty()
     var networkOn by networkOnProperty

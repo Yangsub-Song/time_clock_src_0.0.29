@@ -20,13 +20,26 @@ fun AdminCenterViewVbox.settingHostURLDialog() {
         op = {
             form {
                 fieldset {
+//                    var regexPasswordValid = """^https?://"""
+                    val regexPasswordValid =
+                        """^(?=.*[A-Za-z])(?=.*\d)(?=.*[@${'$'}!%*#?&])[A-Za-z\d@${'$'}!%*#?&]{8,}${'$'}"""
+                    // https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)"""
                     field("Admin 호스트") {
-                        numberTextField(controller.model.adminHost, 256, """https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)""") {
-                            positionCaret(Int.MAX_VALUE)
-                        }
+//                        numberTextField(controller.model.adminHost, 256, "") {
+//                            positionCaret(Int.MAX_VALUE)
+//                        }
+                        numberTextField(
+                            controller.model.adminHost,
+                            256,
+                            regexPasswordValid,
+                        )
                     }
                     field("CWMA 호스트") {
-                        numberTextField(controller.model.cwmaHost, 256, """https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)""")
+                        numberTextField(
+                            controller.model.cwmaHost,
+                            256,
+                            regexPasswordValid,
+                        )
                     }
                 }
             }

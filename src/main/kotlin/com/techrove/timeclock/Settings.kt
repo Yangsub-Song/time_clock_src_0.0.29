@@ -9,7 +9,7 @@ import java.time.LocalDateTime
 object Settings: Preference() {
     private const val VERSION_MAJOR = 0
     private const val VERSION_MINOR = 1
-    private const val VERSION_PATCH = 30    // Yade20220917, 0.0.29->0.0.30
+    private const val VERSION_PATCH = 31    // Yade20220917, 0.0.29->0.0.30
                                             // Yade20220924, 0.0.30->0.1.1  - SW 업데이트 암호 변경
                                             // Yade20220925, 0.0.30->0.1.2  - sFTP 암호 변경
                                             // Yade20220925, 0.0.30->0.1.3  - terminalId, placeId, adminHost, cwmaHost 하드코딩 제거
@@ -40,7 +40,7 @@ object Settings: Preference() {
     var cwmaHost: String by preference(userPref, "cwmaHost", "https://test_ecard.cwma.or.kr")
 
     // Yade0925
-    var terminalId: String by preference(userPref, "terminalId", "100103970101713715177")
+    var terminalId: String by preference(userPref, "terminalId", "100103970101713715177")   // terminalId와 placeCd의 초기값이 널이면 보안키 등록에서 에러가 남.
     var placeCd: String by preference(userPref, "placeCd", "064536")
 //    var terminalId: String by preference(userPref, "terminalId", "")
 //    var placeCd: String by preference(userPref, "placeCd", "")

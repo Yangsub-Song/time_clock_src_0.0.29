@@ -6,8 +6,8 @@ import tornadofx.ItemViewModel
 
 
 class AdminData(terminalId: String, placeCd: String) {
-    val adminHostProperty = SimpleStringProperty(terminalId)        // Yade0925
-    val cwmaHostProperty = SimpleStringProperty(placeCd)            // Yade0925
+    val adminHostProperty = SimpleStringProperty("")        // Yade0925
+    val cwmaHostProperty = SimpleStringProperty("")            // Yade0925
     val terminalIdProperty = SimpleStringProperty(terminalId)
     val placeCdProperty = SimpleStringProperty(placeCd)
     val passWord1Property = SimpleStringProperty("")

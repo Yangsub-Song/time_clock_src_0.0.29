@@ -10,6 +10,7 @@ import com.techrove.timeclock.extensions.configIntegerProperty
 import com.techrove.timeclock.isLinux
 import com.techrove.timeclock.security.Key
 import com.techrove.timeclock.security.KeyHelper
+import com.techrove.timeclock.security.decrypt
 import com.techrove.timeclock.security.encrypt
 import kotlinx.coroutines.*
 import kotlinx.coroutines.javafx.JavaFx
@@ -124,7 +125,10 @@ class SettingsController : BaseController() {
         return if (model.swUpdatePassword1.value != model.swUpdatePassword2.value) {
             false
         } else {
-            Settings.swUpdatePassword = model.swUpdatePassword1.value.encrypt(Key.pwdSUKey, "pw")
+            logger.info("sw업데이트암호(in plain text before encryption): ${model.swUpdatePassword1.value}")
+            Settings.swUpdatePassword = model.swUpdatePassword1.value.encrypt(Key.pwdSUKey, "sUpw")
+            logger.info("sw업데이트암호: ${Settings.swUpdatePassword}")
+            logger.info("sw업데이트암호(in plain text): ${Settings.swUpdatePassword.decrypt(Key.pwdSUKey, "sUpw")}")
             Settings.swUpdatePasswordRenewedDate = LocalDateTime.now()
             true
         }.also {
@@ -137,7 +141,10 @@ class SettingsController : BaseController() {
         return if (model.sFTPPassword1.value != model.sFTPPassword2.value) {
             false
         } else {
-            Settings.sFTPPassword = model.sFTPPassword1.value.encrypt(Key.pwdSFKey, "pw")
+            logger.info("sFTP암호(in plain text before encryption): ${model.sFTPPassword1.value}")
+            Settings.sFTPPassword = model.sFTPPassword1.value.encrypt(Key.pwdSFKey, "sFpw")
+            logger.info("sFTP암호: ${Settings.sFTPPassword}")
+            logger.info("sFTP암호(in plain text): ${Settings.sFTPPassword.decrypt(Key.pwdSFKey, "sFpw")}")
             Settings.sFTPPasswordRenewedDate = LocalDateTime.now()
             true
         }.also {

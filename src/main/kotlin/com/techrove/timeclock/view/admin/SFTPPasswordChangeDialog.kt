@@ -31,7 +31,7 @@ fun AdminCenterViewVbox.sFTPPasswordChangeDialog(changePassword: Boolean = true)
                         """^(?=.*[A-Za-z])(?=.*\d)(?=.*[@${'$'}!%*#?&])[A-Za-z\d@${'$'}!%*#?&]{8,}${'$'}"""
                     field(if (changePassword) "변경할 암호" else "설정할 암호") {
                         numberTextField(
-                            controller.model.swUpdatePassword1,
+                            controller.model.sFTPPassword1,
                             30,
                             regexPasswordValid,
                             password = true,
@@ -43,7 +43,7 @@ fun AdminCenterViewVbox.sFTPPasswordChangeDialog(changePassword: Boolean = true)
                     }
                     field("암호 재확인") {
                         numberTextField(
-                            controller.model.swUpdatePassword2,
+                            controller.model.sFTPPassword2,
                             30,
                             regexPasswordValid,
                             password = true,

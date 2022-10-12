@@ -66,7 +66,7 @@ fun Pane.tryAdminView(controller: MainController, registerFinger: Boolean = fals
         buttons = listOf(if (changePassword) "" else "취소", "확인"),
         op = { formPassword(controller) }) {
         if (it == 1) {
-            if (controller.password == Settings.password.decrypt(Key.pwdKey, "pwd")) {
+            if (controller.password == Settings.password.decrypt(Key.pwdKey, "pwd")) {  // Yade1011 pw -> pwd
                 openAdminView(registerFinger, changePassword)
             } else {
                 controller.infoMessage =
