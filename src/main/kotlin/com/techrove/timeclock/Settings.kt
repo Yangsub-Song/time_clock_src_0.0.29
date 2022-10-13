@@ -21,7 +21,7 @@ object Settings: Preference() {
 
     const val VERSION = "$VERSION_MAJOR.$VERSION_MINOR.$VERSION_PATCH"
 
-    var DEFAULT_KEY = "" // ""AQIDBAUGBwgJCgsMDQ4PEBESExQVFhcYGRobHB0eHyA="
+    var DEFAULT_KEY : String by preference(userPref, "DEFAULT_KEY", "") // ""AQIDBAUGBwgJCgsMDQ4PEBESExQVFhcYGRobHB0eHyA="
     var DEFAULT_KEY_ENC: String by preference(userPref, "DEFAULT_KEY_ENC", "")
     const val PASSWORD_VALID_YEAR = 2L
 
@@ -35,7 +35,7 @@ object Settings: Preference() {
     var adminHost: String by preference(userPref, "adminHost", "http://ez-m.co.kr")
 
 //    const val ADMIN_KEY = "WnZr4u7x!A%D*G-K"
-    var ADMIN_KEY = "" // ""WnZr4u7x!A%D*G-K"
+    var ADMIN_KEY : String by preference(userPref, "ADMIN_KEY", "")  // Yade0927 // ""WnZr4u7x!A%D*G-K"
     var ADMIN_KEY_ENC: String by preference(userPref, "ADMIN_KEY_ENC", "")  // Yade0927
     var cwmaHost: String by preference(userPref, "cwmaHost", "https://test_ecard.cwma.or.kr")
 
@@ -45,13 +45,13 @@ object Settings: Preference() {
 //    var terminalId: String by preference(userPref, "terminalId", "")
 //    var placeCd: String by preference(userPref, "placeCd", "")
 
-    var password: String by preference(userPref, "password", "")
-    var passwordRenewedDate: LocalDateTime by preference(userPref, "password_renewed", LocalDateTime.now())
+    var password: String by preference(userPref, "PASSWORD", "")
+    var passwordRenewedDate: LocalDateTime by preference(userPref, "PASSWORD_RENEWED", LocalDateTime.now())
 
-    var swUpdatePassword: String by preference(userPref, "swUpdatePassword", "")                                    // Yade0924
-    var swUpdatePasswordRenewedDate: LocalDateTime by preference(userPref, "swUpdatePassword_renewed", LocalDateTime.now())    // Yade0924
-    var sFTPPassword: String by preference(userPref, "sFTPPassword", "")                                         // Yade0925
-    var sFTPPasswordRenewedDate: LocalDateTime by preference(userPref, "sFTPPassword_renewed", LocalDateTime.now())        // Yade0925
+    var swUpdatePassword: String by preference(userPref, "SWUPDATE_PASSWORD", "")                                    // Yade0924
+    var swUpdatePasswordRenewedDate: LocalDateTime by preference(userPref, "SWUPDATE_PASSWORD_RENEWED", LocalDateTime.now())    // Yade0924
+    var sFTPPassword: String by preference(userPref, "SFTP_PASSWORD", "")                                         // Yade0925
+    var sFTPPasswordRenewedDate: LocalDateTime by preference(userPref, "SFTP_PASSWORD_RENEWED", LocalDateTime.now())        // Yade0925
 
     var volume: Int by preference(userPref, "volume", 100)
 

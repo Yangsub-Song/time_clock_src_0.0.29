@@ -63,15 +63,6 @@ fun AdminCenterViewVbox.settingsDialog() {
                 textButton("URL 주소 변경") { settingHostURLDialog() }                  // Yade0925
                 spacer()
             }
-            hbox(spacing = spacing, alignment = Pos.CENTER) { // Yade0923
-                spacer()
-                textButton("Test 1") { find(AdminCenterView::class).root.passwordChangeDialog(true) }   // Yade0926
-                spacer()
-                textButton("Test 2") { find(MainView::class).showIntegrityErrorDialog() }             // Yade0926
-                spacer()
-                textButton("Test 3") { settingHostURLDialog() }                  // Yade0926
-                spacer()
-            }
         }
     }) {
         controller.showTerminalInfo = false

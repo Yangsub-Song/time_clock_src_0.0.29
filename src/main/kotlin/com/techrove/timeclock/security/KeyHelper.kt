@@ -15,6 +15,7 @@ private val logger = KotlinLogging.logger("Key")
 
 object Key {
     var tmsKey = byteArrayOf()
+    var tms2Key = byteArrayOf()
 //    var defaultKey = byteArrayOf()  // Yade1012
 //    var adminKey = byteArrayOf()      // Yade1012
     var photoKey = byteArrayOf()
@@ -153,6 +154,7 @@ object KeyHelper {
         Key.pwdSUKey = checkIntegrityWithMasterKey("pwdSU") ?: return false       // Yade0927
         Key.pwdSFKey = checkIntegrityWithMasterKey("pwdSF") ?: return false       // Yade0927
         Key.tmsKey = checkIntegrityWithMasterKey("tms") ?: return false
+        Key.tms2Key = checkIntegrityWithMasterKey("tms2") ?: return false
 //        Key.defaultKey = checkIntegrityWithMasterKey("default") ?: return false     // Yade1012
 //        Key.adminKey = checkIntegrityWithMasterKey("admin") ?: return false         // Yade1012
         Key.photoKey = checkIntegrityWithMasterKey("photo") ?: return false
@@ -168,7 +170,7 @@ object KeyHelper {
     fun checkKeyIntegrity(): Boolean {
         return checkKeyIntegrityInternal().also {
             if (!it) {
-// Yade                File("./keys").deleteRecursively()
+                File("./keys").deleteRecursively()
             }
         }
     }
@@ -196,6 +198,7 @@ object KeyHelper {
         CwmaServer.key = cwmaServerKey
 
         Key.tmsKey = createKeyWithMasterKey("tms") ?: return false
+        Key.tms2Key = createKeyWithMasterKey("tms2") ?: return false
 //        Key.adminKey = createKeyWithMasterKey("admin") ?: return false      // Yade1012
 //        Key.defaultKey = createKeyWithMasterKey("default") ?: return false   // Yade1012
         Key.photoKey = createKeyWithMasterKey("photo") ?: return false
@@ -221,6 +224,7 @@ object KeyHelper {
         }
         // backup current keys
         val prevTmsKey = Key.tmsKey
+        val prevTms2Key = Key.tms2Key
         val prevPhotoKey = Key.photoKey
         val prevPwdKey = Key.pwdKey
         val prevIdsnKey = Key.idsnKey

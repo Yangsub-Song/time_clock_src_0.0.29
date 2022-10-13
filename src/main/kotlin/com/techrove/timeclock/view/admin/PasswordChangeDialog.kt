@@ -9,11 +9,31 @@ import com.techrove.timeclock.view.custom.numberTextField
 import com.techrove.timeclock.view.custom.timeoutDialog
 import tornadofx.*
 
+import com.techrove.timeclock.Styles
+import com.techrove.timeclock.controller.MainController
+import com.techrove.timeclock.controller.model.InfoMessage
+import com.techrove.timeclock.isLinux
+import com.techrove.timeclock.security.Key
+import com.techrove.timeclock.security.decrypt
+import com.techrove.timeclock.view.admin.AdminView
+import com.techrove.timeclock.view.custom.bottomButton
+import com.techrove.timeclock.view.custom.numberTextField
+import com.techrove.timeclock.view.custom.timeoutDialog
+import javafx.scene.layout.Pane
+import javafx.scene.layout.VBox
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.javafx.JavaFx
+import kotlinx.coroutines.launch
+import tornadofx.*
+import tornadofx.FX.Companion.primaryStage
+
 /**
  * 암호 변경 dialog
  */
 fun AdminCenterViewVbox.passwordChangeDialog(changePassword: Boolean = true) {
     val controller = find(SettingsController::class)
+    val controller2 = find(MainController::class)   // Yade1013
 
     Audio.play("beep1.wav")
     controller.model.resetPassword()
@@ -23,7 +43,8 @@ fun AdminCenterViewVbox.passwordChangeDialog(changePassword: Boolean = true) {
         iconType = IconType.PassWord,
         keyboard = true,
         delay = if (changePassword) AdminView.defaultTimeout else null,
-        lastEnabledWhen = controller.model.valid,
+//        lastEnabledWhen = controller.model.valid,
+        lastEnabledWhen = controller2.passwordModel.valid,     // Yade1013
         op = {
             form {
                 fieldset {

@@ -1,6 +1,7 @@
 package com.techrove.timeclock.view.admin
 
 import com.techrove.timeclock.Settings
+import com.techrove.timeclock.controller.MainController
 import com.techrove.timeclock.controller.admin.SettingsController
 import com.techrove.timeclock.io.Audio
 import com.techrove.timeclock.view.custom.IconType
@@ -14,6 +15,7 @@ import tornadofx.*
  */
 fun AdminCenterViewVbox.sFTPPasswordChangeDialog(changePassword: Boolean = true) {
     val controller = find(SettingsController::class)
+    val controller2 = find(MainController::class)   // Yade1013
 
     Audio.play("beep1.wav")
     controller.model.resetSFTPPassword()
@@ -23,7 +25,8 @@ fun AdminCenterViewVbox.sFTPPasswordChangeDialog(changePassword: Boolean = true)
         iconType = IconType.PassWord,
         keyboard = true,
         delay = if (changePassword) AdminView.defaultTimeout else null,
-        lastEnabledWhen = controller.model.valid,
+//        lastEnabledWhen = controller.model.valid,
+        lastEnabledWhen = controller2.sFTPPasswordModel.valid,
         op = {
             form {
                 fieldset {

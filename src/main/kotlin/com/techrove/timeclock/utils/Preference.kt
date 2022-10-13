@@ -7,6 +7,10 @@ import java.util.prefs.Preferences
 import kotlin.properties.ReadWriteProperty
 import kotlin.reflect.KClass
 import kotlin.reflect.KProperty
+import mu.KotlinLogging                                         // Yade1013
+import org.jetbrains.exposed.sql.exists
+
+private val logger = KotlinLogging.logger("Preference")     // Yade1013
 
 open class Preference {
     protected val userPref by lazy { Preferences.userNodeForPackage(Preference::class.java) }
@@ -15,7 +19,63 @@ open class Preference {
             = PreferenceDelegate(preferences, key, defaultValue, T::class)
 
     fun clear() {
-        userPref.clear()
+// Yade1013
+//        userPref.clear()
+        userPref.put("PASSWORD", "")
+        userPref.put("PASSWORD_RENEWED", "")
+//        userPref.put("key_renewed", "")
+        // sw업데이트&sFTP는 나중에 처리
+//        userPref.put("swUpdatePassword", "")
+//        userPref.put("swUpdatePassword_renewed", "")
+//        userPref.put("sFTPPassword", "")
+//        userPref.put("sFTPPassword_renewed", "")
+//        try {
+//            var process = Runtime.getRuntime()
+//                .exec("sudo sed -i '/password\\\"/d' /root/.java/.userPrefs/com/techrove/timeclock/utils/prefs.xml")
+//            if (process != null)
+//                logger.info("[Prefs] password 삭제 성공")
+//            else
+//                logger.info("[Prefs] password 삭제 실패")
+//
+//            process = Runtime.getRuntime()
+//                .exec("sudo sed -i '/password_renewed\\\"/d' /root/.java/.userPrefs/com/techrove/timeclock/utils/prefs.xml")
+//            if (process != null)
+//                logger.info("[Prefs] password_renewed 삭제 성공")
+//            else
+//                logger.info("[Prefs] password_renewed 삭제 실패")
+//            process = Runtime.getRuntime()
+//                .exec("sudo sed -i '/key_renewed\\\"/d' /root/.java/.userPrefs/com/techrove/timeclock/utils/prefs.xml")
+//            if (process != null)
+//                logger.info("[Prefs] key_renewed 성공")
+//            else
+//                logger.info("[Prefs] key_renewded 삭제 실패")
+//            process = Runtime.getRuntime()
+//                .exec("sudo sed -i '/swUpdatePassword\\\"/d' /root/.java/.userPrefs/com/techrove/timeclock/utils/prefs.xml")
+//            if (process != null)
+//                logger.info("[Prefs] swUpdatePassword 성공")
+//            else
+//                logger.info("[Prefs] swUpdatePassword 삭제 실패")
+//            process = Runtime.getRuntime()
+//                .exec("sudo sed -i '/swUpdatePassword_renewed\\\"/d' /root/.java/.userPrefs/com/techrove/timeclock/utils/prefs.xml")
+//            if (process != null)
+//                logger.info("[Prefs] swUpdatePassword_renewed 성공")
+//            else
+//                logger.info("[Prefs] swUpdatePassword_renewed 삭제 실패")
+//            process = Runtime.getRuntime()
+//                .exec("sudo sed -i '/sFTPPPassword\\\"/d' /root/.java/.userPrefs/com/techrove/timeclock/utils/prefs.xml")
+//            if (process != null)
+//                logger.info("[Prefs] sFTPPPassword 성공")
+//            else
+//                logger.info("[Prefs] sFTPPPassword 삭제 실패")
+//            process = Runtime.getRuntime()
+//                .exec("sudo sed -i '/sFTPPassword_renewed\\\"/d' /root/.java/.userPrefs/com/techrove/timeclock/utils/prefs.xml")
+//            if (process != null)
+//                logger.info("[Prefs] sFTPPassword_renewed 성공")
+//            else
+//                logger.info("[Prefs] sFTPPassword_renewed 삭제 실패")
+//        } finally {
+//            logger.info("설정 파일 초기화 실패 finally")
+//        }
     }
 
     class PreferenceDelegate<T: Any>(
