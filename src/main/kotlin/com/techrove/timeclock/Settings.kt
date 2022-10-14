@@ -21,7 +21,7 @@ object Settings: Preference() {
 
     const val VERSION = "$VERSION_MAJOR.$VERSION_MINOR.$VERSION_PATCH"
 
-    var DEFAULT_KEY : String by preference(userPref, "DEFAULT_KEY", "") // ""AQIDBAUGBwgJCgsMDQ4PEBESExQVFhcYGRobHB0eHyA="
+    var DEFAULT_KEY = ""
     var DEFAULT_KEY_ENC: String by preference(userPref, "DEFAULT_KEY_ENC", "")
     const val PASSWORD_VALID_YEAR = 2L
 
@@ -61,6 +61,6 @@ object Settings: Preference() {
 
     var takePicture: Boolean by preference(userPref, "take_picture", true)
 
-    var keyRenewedDate: LocalDateTime by preference(userPref, "key_renewed", LocalDateTime.now())
+    var keyRenewedDate: LocalDateTime by preference(userPref, "KEY_RENEWED", LocalDateTime.now())
 
 }

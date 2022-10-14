@@ -33,7 +33,7 @@ import tornadofx.FX.Companion.primaryStage
  */
 fun AdminCenterViewVbox.passwordChangeDialog(changePassword: Boolean = true) {
     val controller = find(SettingsController::class)
-    val controller2 = find(MainController::class)   // Yade1013
+//    val controller2 = find(MainController::class)   // Yade1013
 
     Audio.play("beep1.wav")
     controller.model.resetPassword()
@@ -43,8 +43,8 @@ fun AdminCenterViewVbox.passwordChangeDialog(changePassword: Boolean = true) {
         iconType = IconType.PassWord,
         keyboard = true,
         delay = if (changePassword) AdminView.defaultTimeout else null,
-//        lastEnabledWhen = controller.model.valid,
-        lastEnabledWhen = controller2.passwordModel.valid,     // Yade1013
+        lastEnabledWhen = controller.model.valid,
+//        lastEnabledWhen = controller2.passwordModel.valid,     // Yade1013
         op = {
             form {
                 fieldset {

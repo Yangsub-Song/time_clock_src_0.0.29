@@ -15,7 +15,7 @@ import tornadofx.*
  */
 fun AdminCenterViewVbox.updateSWPasswordChangeDialog(changePassword: Boolean = true) {
     val controller = find(SettingsController::class)
-    val controller2 = find(MainController::class)   // Yade1013
+//    val controller2 = find(MainController::class)   // Yade1013
 
     Audio.play("beep1.wav")
     controller.model.resetSWUpdatePassword()
@@ -25,8 +25,8 @@ fun AdminCenterViewVbox.updateSWPasswordChangeDialog(changePassword: Boolean = t
         iconType = IconType.PassWord,
         keyboard = true,
         delay = if (changePassword) AdminView.defaultTimeout else null,
-        //        lastEnabledWhen = controller.model.valid,
-        lastEnabledWhen = controller2.swUpdatePasswordModel.valid,     // Yade1013
+        lastEnabledWhen = controller.modelSU.valid,
+//        lastEnabledWhen = controller2.swUpdatePasswordModel.valid,     // Yade1013
         op = {
             form {
                 fieldset {
@@ -34,7 +34,7 @@ fun AdminCenterViewVbox.updateSWPasswordChangeDialog(changePassword: Boolean = t
                         """^(?=.*[A-Za-z])(?=.*\d)(?=.*[@${'$'}!%*#?&])[A-Za-z\d@${'$'}!%*#?&]{8,}${'$'}"""
                     field(if (changePassword) "변경할 암호" else "설정할 암호") {
                         numberTextField(
-                            controller.model.swUpdatePassword1,
+                            controller.modelSU.swUpdatePassword1,
                             30,
                             regexPasswordValid,
                             password = true,
@@ -46,7 +46,7 @@ fun AdminCenterViewVbox.updateSWPasswordChangeDialog(changePassword: Boolean = t
                     }
                     field("암호 재확인") {
                         numberTextField(
-                            controller.model.swUpdatePassword2,
+                            controller.modelSU.swUpdatePassword2,
                             30,
                             regexPasswordValid,
                             password = true,
@@ -57,7 +57,15 @@ fun AdminCenterViewVbox.updateSWPasswordChangeDialog(changePassword: Boolean = t
         },
         buttons = if (changePassword) listOf("취소", "변경") else  listOf("설정")
     ) {
-        if (it == -1) return@timeoutDialog
+        if (it == -1) {
+            controller.modelSU.swUpdatePassword1.value = ""   // Yade1014
+            controller.modelSU.swUpdatePassword2.value = ""
+            controller.modelSF.swUpdatePassword1.value = ""   // Yade1014
+            controller.modelSF.swUpdatePassword2.value = ""
+            controller.model.swUpdatePassword1.value = ""   // Yade1014
+            controller.model.swUpdatePassword2.value = ""
+            return@timeoutDialog
+        }
         if (changePassword) {
             if (it == 1) {
                 if (controller.tryChangeSWUpdatePassword()) {
@@ -68,6 +76,12 @@ fun AdminCenterViewVbox.updateSWPasswordChangeDialog(changePassword: Boolean = t
                     }
                 }
             } else {
+                controller.modelSU.swUpdatePassword1.value = ""   // Yade1014
+                controller.modelSU.swUpdatePassword2.value = ""
+                controller.modelSF.swUpdatePassword1.value = ""   // Yade1014
+                controller.modelSF.swUpdatePassword2.value = ""
+                controller.model.swUpdatePassword1.value = ""   // Yade1014
+                controller.model.swUpdatePassword2.value = ""
                 settingsDialog()
             }
         } else {

@@ -23,12 +23,12 @@ open class Preference {
 //        userPref.clear()
         userPref.put("PASSWORD", "")
         userPref.put("PASSWORD_RENEWED", "")
-//        userPref.put("key_renewed", "")
+        userPref.put("KEY_RENEWED", "")
         // sw업데이트&sFTP는 나중에 처리
-//        userPref.put("swUpdatePassword", "")
-//        userPref.put("swUpdatePassword_renewed", "")
-//        userPref.put("sFTPPassword", "")
-//        userPref.put("sFTPPassword_renewed", "")
+        userPref.put("SWUPDATE_PASSWORD", "")
+        userPref.put("SWUPDATE_PASSWORD_RENEWED", "")
+        userPref.put("SFTP_PASSWORD", "")
+        userPref.put("SFTP_PASSWORD_RENEWED", "")
 //        try {
 //            var process = Runtime.getRuntime()
 //                .exec("sudo sed -i '/password\\\"/d' /root/.java/.userPrefs/com/techrove/timeclock/utils/prefs.xml")

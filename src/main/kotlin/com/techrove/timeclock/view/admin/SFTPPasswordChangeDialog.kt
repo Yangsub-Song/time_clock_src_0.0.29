@@ -15,7 +15,7 @@ import tornadofx.*
  */
 fun AdminCenterViewVbox.sFTPPasswordChangeDialog(changePassword: Boolean = true) {
     val controller = find(SettingsController::class)
-    val controller2 = find(MainController::class)   // Yade1013
+//    val controller2 = find(MainController::class)   // Yade1013
 
     Audio.play("beep1.wav")
     controller.model.resetSFTPPassword()
@@ -25,8 +25,8 @@ fun AdminCenterViewVbox.sFTPPasswordChangeDialog(changePassword: Boolean = true)
         iconType = IconType.PassWord,
         keyboard = true,
         delay = if (changePassword) AdminView.defaultTimeout else null,
-//        lastEnabledWhen = controller.model.valid,
-        lastEnabledWhen = controller2.sFTPPasswordModel.valid,
+        lastEnabledWhen = controller.modelSF.valid, // Yade1013
+//        lastEnabledWhen = controller2.sFTPPasswordModel.valid,
         op = {
             form {
                 fieldset {
@@ -34,7 +34,7 @@ fun AdminCenterViewVbox.sFTPPasswordChangeDialog(changePassword: Boolean = true)
                         """^(?=.*[A-Za-z])(?=.*\d)(?=.*[@${'$'}!%*#?&])[A-Za-z\d@${'$'}!%*#?&]{8,}${'$'}"""
                     field(if (changePassword) "변경할 암호" else "설정할 암호") {
                         numberTextField(
-                            controller.model.sFTPPassword1,
+                            controller.modelSF.sFTPPassword1,
                             30,
                             regexPasswordValid,
                             password = true,
@@ -46,7 +46,7 @@ fun AdminCenterViewVbox.sFTPPasswordChangeDialog(changePassword: Boolean = true)
                     }
                     field("암호 재확인") {
                         numberTextField(
-                            controller.model.sFTPPassword2,
+                            controller.modelSF.sFTPPassword2,
                             30,
                             regexPasswordValid,
                             password = true,
@@ -57,7 +57,9 @@ fun AdminCenterViewVbox.sFTPPasswordChangeDialog(changePassword: Boolean = true)
         },
         buttons = if (changePassword) listOf("취소", "변경") else  listOf("설정")
     ) {
-        if (it == -1) return@timeoutDialog
+        if (it == -1) {
+            return@timeoutDialog
+        }
         if (changePassword) {
             if (it == 1) {
                 if (controller.tryChangeSFTPPassword()) {
@@ -68,6 +70,12 @@ fun AdminCenterViewVbox.sFTPPasswordChangeDialog(changePassword: Boolean = true)
                     }
                 }
             } else {
+                controller.modelSF.sFTPPassword1.value = ""   // Yade1014
+                controller.modelSF.sFTPPassword2.value = ""
+                controller.modelSU.sFTPPassword1.value = ""   // Yade1014
+                controller.modelSU.sFTPPassword2.value = ""
+                controller.model.sFTPPassword1.value = ""   // Yade1014
+                controller.model.sFTPPassword2.value = ""
                 settingsDialog()
             }
         } else {

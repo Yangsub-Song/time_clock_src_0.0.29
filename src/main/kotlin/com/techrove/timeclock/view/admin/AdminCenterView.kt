@@ -90,8 +90,8 @@ class AdminCenterView : View("Admin") {
         }
 
         initRegisterFinger()
+        initSFTPPasswordChange()        // Yade1011
+        initUpdateSWPasswordChange()    // Yade0922
         initPasswordChange()
-//        initUpdateSWPasswordChange()    // Yade0922
-//        initSFTPPasswordChange()        // Yade1011
     }
 }

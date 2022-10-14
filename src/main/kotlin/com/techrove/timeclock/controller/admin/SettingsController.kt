@@ -36,6 +36,8 @@ private val logger = KotlinLogging.logger("SettingsController")
 class SettingsController : BaseController() {
 
     val model = AdminModel()
+    val modelSU = AdminModel()  // Yade1013
+    val modelSF = AdminModel()  // Yade1013
 
     val swVersion = Settings.VERSION
 
@@ -122,32 +124,44 @@ class SettingsController : BaseController() {
     }
     // Yade0924
     fun tryChangeSWUpdatePassword(): Boolean {
-        return if (model.swUpdatePassword1.value != model.swUpdatePassword2.value) {
+        return if (modelSU.swUpdatePassword1.value != modelSU.swUpdatePassword2.value) {
+//            modelSU.swUpdatePassword1.value = ""    // Yade1014
+//            modelSU.swUpdatePassword2.value = ""
             false
         } else {
-            logger.info("sw업데이트암호(in plain text before encryption): ${model.swUpdatePassword1.value}")
-            Settings.swUpdatePassword = model.swUpdatePassword1.value.encrypt(Key.pwdSUKey, "sUpw")
+            logger.info("sw업데이트암호(in plain text before encryption): ${modelSU.swUpdatePassword1.value}")
+            Settings.swUpdatePassword = modelSU.swUpdatePassword1.value.encrypt(Key.pwdSUKey, "sUpw")
             logger.info("sw업데이트암호: ${Settings.swUpdatePassword}")
             logger.info("sw업데이트암호(in plain text): ${Settings.swUpdatePassword.decrypt(Key.pwdSUKey, "sUpw")}")
             Settings.swUpdatePasswordRenewedDate = LocalDateTime.now()
             true
         }.also {
+            modelSU.swUpdatePassword1.value = ""
+            modelSU.swUpdatePassword2.value = ""
+            modelSF.swUpdatePassword1.value = ""    // Yade1014
+            modelSF.swUpdatePassword2.value = ""
             model.swUpdatePassword1.value = ""
             model.swUpdatePassword2.value = ""
         }
     }
     // Yade0925
     fun tryChangeSFTPPassword(): Boolean {
-        return if (model.sFTPPassword1.value != model.sFTPPassword2.value) {
+        return if (modelSF.sFTPPassword1.value != modelSF.sFTPPassword2.value) {
+//            modelSF.sFTPPassword1.value = ""   // Yade1014
+//            modelSF.sFTPPassword2.value = ""
             false
         } else {
-            logger.info("sFTP암호(in plain text before encryption): ${model.sFTPPassword1.value}")
-            Settings.sFTPPassword = model.sFTPPassword1.value.encrypt(Key.pwdSFKey, "sFpw")
+            logger.info("sFTP암호(in plain text before encryption): ${modelSF.sFTPPassword1.value}")
+            Settings.sFTPPassword = modelSF.sFTPPassword1.value.encrypt(Key.pwdSFKey, "sFpw")
             logger.info("sFTP암호: ${Settings.sFTPPassword}")
             logger.info("sFTP암호(in plain text): ${Settings.sFTPPassword.decrypt(Key.pwdSFKey, "sFpw")}")
             Settings.sFTPPasswordRenewedDate = LocalDateTime.now()
             true
         }.also {
+            modelSF.sFTPPassword1.value = ""
+            modelSF.sFTPPassword2.value = ""
+            modelSU.sFTPPassword1.value = ""    // Yade1014
+            modelSU.sFTPPassword2.value = ""
             model.sFTPPassword1.value = ""
             model.sFTPPassword2.value = ""
         }
