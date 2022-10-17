@@ -15,7 +15,6 @@ import tornadofx.*
  */
 fun AdminCenterViewVbox.sFTPPasswordChangeDialog(changePassword: Boolean = true) {
     val controller = find(SettingsController::class)
-//    val controller2 = find(MainController::class)   // Yade1013
 
     Audio.play("beep1.wav")
     controller.model.resetSFTPPassword()
@@ -24,9 +23,10 @@ fun AdminCenterViewVbox.sFTPPasswordChangeDialog(changePassword: Boolean = true)
         message = "3종류 이상의 문자(영문 대/소문자, 숫자, 특수문자) 8자리 이상 입력해주세요.",
         iconType = IconType.PassWord,
         keyboard = true,
-        delay = if (changePassword) AdminView.defaultTimeout else null,
+//        delay = if (changePassword) AdminView.defaultTimeout else null,   // Yade1017
+        delay = if (changePassword) null else 30.seconds,                   // Yade1017
+        closable = !changePassword,                                         // Yade1017
         lastEnabledWhen = controller.modelSF.valid, // Yade1013
-//        lastEnabledWhen = controller2.sFTPPasswordModel.valid,
         op = {
             form {
                 fieldset {
@@ -81,6 +81,7 @@ fun AdminCenterViewVbox.sFTPPasswordChangeDialog(changePassword: Boolean = true)
         } else {
             if (controller.tryChangeSFTPPassword()) {
                 infoDialogCustom("sFTP 암호가 설정되었습니다.", iconType = IconType.Info)
+                initUpdateSWPasswordChange()    // Yade0922, 1017
             } else {
                 infoDialog("입력한 암호가 다릅니다. 재입력해 주세요", iconType = IconType.Error) {
                     sFTPPasswordChangeDialog(false)
@@ -91,7 +92,8 @@ fun AdminCenterViewVbox.sFTPPasswordChangeDialog(changePassword: Boolean = true)
 }
 
 fun AdminCenterViewVbox.initSFTPPasswordChange() {
-    if (Settings.password.isEmpty()) {
-        runLater { sFTPPasswordChangeDialog(false) }
+    if (Settings.sFTPPassword.isEmpty()) {
+          runLater { sFTPPasswordChangeDialog(false) }    // Yade1017
+//        sFTPPasswordChangeDialog(false)     // Yade1017
     }
 }

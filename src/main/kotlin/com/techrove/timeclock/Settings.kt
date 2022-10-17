@@ -68,4 +68,5 @@ object Settings: Preference() {
 
     var keyRenewedDate: LocalDateTime by preference(userPref, "KEY_RENEWED", LocalDateTime.now())
 
+    var keyRenewedDate2: LocalDateTime by preference(userPref, "KEY_RENEWED2", LocalDateTime.now())
 }

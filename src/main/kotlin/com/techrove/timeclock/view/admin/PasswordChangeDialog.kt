@@ -33,7 +33,6 @@ import tornadofx.FX.Companion.primaryStage
  */
 fun AdminCenterViewVbox.passwordChangeDialog(changePassword: Boolean = true) {
     val controller = find(SettingsController::class)
-//    val controller2 = find(MainController::class)   // Yade1013
 
     Audio.play("beep1.wav")
     controller.model.resetPassword()
@@ -42,9 +41,10 @@ fun AdminCenterViewVbox.passwordChangeDialog(changePassword: Boolean = true) {
         message = "3종류 이상의 문자(영문 대/소문자, 숫자, 특수문자) 8자리 이상 입력해주세요.",
         iconType = IconType.PassWord,
         keyboard = true,
-        delay = if (changePassword) AdminView.defaultTimeout else null,
+//        delay = if (changePassword) AdminView.defaultTimeout else null,   // Yade1017
+        delay = if (changePassword) null else 30.seconds,                   // Yade1017
+        closable = !changePassword,                                         // Yade1017
         lastEnabledWhen = controller.model.valid,
-//        lastEnabledWhen = controller2.passwordModel.valid,     // Yade1013
         op = {
             form {
                 fieldset {
@@ -91,6 +91,7 @@ fun AdminCenterViewVbox.passwordChangeDialog(changePassword: Boolean = true) {
         } else {
             if (controller.tryChangePassword()) {
                 infoDialogCustom("관리자 암호가 설정되었습니다.", iconType = IconType.Info)
+                initSFTPPasswordChange()        // Yade1011, 1017
             } else {
                 infoDialog("입력한 암호가 다릅니다. 재입력해 주세요", iconType = IconType.Error) {
                     passwordChangeDialog(false)
@@ -102,6 +103,7 @@ fun AdminCenterViewVbox.passwordChangeDialog(changePassword: Boolean = true) {
 
 fun AdminCenterViewVbox.initPasswordChange() {
     if (Settings.password.isEmpty()) {
-        runLater { passwordChangeDialog(false) }
+        runLater { passwordChangeDialog(false) }      // Yade1017
+//        passwordChangeDialog(false)     // Yade1017
     }
 }

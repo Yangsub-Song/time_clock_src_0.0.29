@@ -15,7 +15,6 @@ import tornadofx.*
  */
 fun AdminCenterViewVbox.updateSWPasswordChangeDialog(changePassword: Boolean = true) {
     val controller = find(SettingsController::class)
-//    val controller2 = find(MainController::class)   // Yade1013
 
     Audio.play("beep1.wav")
     controller.model.resetSWUpdatePassword()
@@ -24,9 +23,10 @@ fun AdminCenterViewVbox.updateSWPasswordChangeDialog(changePassword: Boolean = t
         message = "3종류 이상의 문자(영문 대/소문자, 숫자, 특수문자) 8자리 이상 입력해주세요.",
         iconType = IconType.PassWord,
         keyboard = true,
-        delay = if (changePassword) AdminView.defaultTimeout else null,
+//        delay = if (changePassword) AdminView.defaultTimeout else null,   // Yade1017
+        delay = if (changePassword) null else 30.seconds,                   // Yade1017
+        closable = !changePassword,                                         // Yade1017
         lastEnabledWhen = controller.modelSU.valid,
-//        lastEnabledWhen = controller2.swUpdatePasswordModel.valid,     // Yade1013
         op = {
             form {
                 fieldset {
@@ -98,6 +98,7 @@ fun AdminCenterViewVbox.updateSWPasswordChangeDialog(changePassword: Boolean = t
 
 fun AdminCenterViewVbox.initUpdateSWPasswordChange() {
     if (Settings.swUpdatePassword.isEmpty()) {
-        runLater { updateSWPasswordChangeDialog(false) }
+        runLater { updateSWPasswordChangeDialog(false) }  // Yade1017
+//        updateSWPasswordChangeDialog(false)  // Yade1017
     }
 }

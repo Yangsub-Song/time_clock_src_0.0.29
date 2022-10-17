@@ -14,8 +14,8 @@ import java.time.LocalDateTime
 private val logger = KotlinLogging.logger("Key")
 
 object Key {
-    var tmsKey = byteArrayOf()
-    var tms2Key = byteArrayOf()
+//    var tmsKey = byteArrayOf()
+//    var tms2Key = byteArrayOf()
     var defaultKey = byteArrayOf()  // Yade1012, 1017
     var adminKey = byteArrayOf()      // Yade1012, 1017
     var photoKey = byteArrayOf()
@@ -36,10 +36,15 @@ object KeyHelper {
     var masterKey = byteArrayOf()
         private set
 
+    var masterKey2 = byteArrayOf()  // Yade1017
+        private set
+
     private const val keyDir = "./keys"
+    const val keyDir2 = "./serverKeys"  // Yade1017
 
     var swIntegrityOk = false
     var keyIntegrityOk = false
+    var keyIntegrityOk2 = false     // Yade1017
     val allIntegrityOk get() = swIntegrityOk && keyIntegrityOk
 
     private fun writeKeyFile(name: String, key: ByteArray): Boolean {
@@ -111,6 +116,16 @@ object KeyHelper {
         }
         return key
     }
+    // Yade1017
+    private fun createKeyWithMasterKey2(name: String): ByteArray? {
+        val key = Cipher.newKey()
+        val keyEnc = Cipher.encrypt(masterKey2, key)
+        if (!writeKeyFile(name, keyEnc)) {
+            logger.error { "$name key create error2" }
+            return null
+        }
+        return key
+    }
 
     fun checkFileSha(fileName: String): Boolean {
         val file = File(fileName)
@@ -146,17 +161,17 @@ object KeyHelper {
         val masterKeyEnc = readKeyFile("master")
         if (masterKeyEnc == null) {
             logger.error { "master key integrity error" }
-            return false // Yade1012
+            return false
         }
         masterKey = Cipher.parseMasterKey(masterKeyEnc)
 
         Key.pwdKey = checkIntegrityWithMasterKey("pwd") ?: return false
         Key.pwdSUKey = checkIntegrityWithMasterKey("pwdSU") ?: return false       // Yade0927
         Key.pwdSFKey = checkIntegrityWithMasterKey("pwdSF") ?: return false       // Yade0927
-        Key.tmsKey = checkIntegrityWithMasterKey("tms") ?: return false
-        Key.tms2Key = checkIntegrityWithMasterKey("tms2") ?: return false
-        Key.defaultKey = checkIntegrityWithMasterKey("default") ?: return false     // Yade1012, 1017
-        Key.adminKey = checkIntegrityWithMasterKey("admin") ?: return false         // Yade1012
+//        Key.tmsKey = checkIntegrityWithMasterKey("tms") ?: return false
+//        Key.tms2Key = checkIntegrityWithMasterKey("tms2") ?: return false
+//        Key.defaultKey = checkIntegrityWithMasterKey("default") ?: return false     // Yade1012, 1017
+//        Key.adminKey = checkIntegrityWithMasterKey("admin") ?: return false         // Yade1012
         Key.photoKey = checkIntegrityWithMasterKey("photo") ?: return false
         Key.idsnKey = checkIntegrityWithMasterKey("idsn") ?: return false
         Key.cardKey = checkIntegrityWithMasterKey("card") ?: return false
@@ -167,14 +182,41 @@ object KeyHelper {
         return true
     }
 
+    // Yade1017
+    private fun checkKeyIntegrityInternal2(): Boolean {
+        keyIntegrityOk2 = false
+        val masterKeyEnc = readKeyFile("master2")
+        if (masterKeyEnc == null) {
+            logger.error { "master key integrity error2" }
+            return false
+        }
+        masterKey = Cipher.parseMasterKey(masterKeyEnc)
+
+        Key.defaultKey = checkIntegrityWithMasterKey("default") ?: return false     // Yade1012, 1017
+        Key.adminKey = checkIntegrityWithMasterKey("admin") ?: return false         // Yade1012
+
+        logger.info { "integrity check done2" }
+        keyIntegrityOk2 = true
+
+        return true
+    }
+
     fun checkKeyIntegrity(): Boolean {
         return checkKeyIntegrityInternal().also {
             if (!it) {
-// Yade1017                File("./keys").deleteRecursively()
+                File("./keys").deleteRecursively()
             }
         }
     }
 
+    // Yade1017
+    fun checkKeyIntegrity2(): Boolean {
+        return checkKeyIntegrityInternal2().also {
+            if (!it) {
+//                File("./serverKeys").deleteRecursively()
+            }
+        }
+    }
     private fun deleteAllPictures() {
         ///////////////////////////////////////////////////////////////////////////
         // 사진 폴더 삭제
@@ -197,10 +239,10 @@ object KeyHelper {
         masterKey = Cipher.parseMasterKey(masterKeyEnc)
         CwmaServer.key = cwmaServerKey
 
-        Key.tmsKey = createKeyWithMasterKey("tms") ?: return false
-        Key.tms2Key = createKeyWithMasterKey("tms2") ?: return false
-        Key.adminKey = createKeyWithMasterKey("admin") ?: return false      // Yade1012
-        Key.defaultKey = createKeyWithMasterKey("default") ?: return false   // Yade1012, 1017
+//        Key.tmsKey = createKeyWithMasterKey("tms") ?: return false
+//        Key.tms2Key = createKeyWithMasterKey("tms2") ?: return false
+//        Key.adminKey = createKeyWithMasterKey("admin") ?: return false      // Yade1012
+//        Key.defaultKey = createKeyWithMasterKey("default") ?: return false   // Yade1012, 1017
         Key.photoKey = createKeyWithMasterKey("photo") ?: return false
         Key.pwdKey = createKeyWithMasterKey("pwd") ?: return false
         Key.pwdSUKey = createKeyWithMasterKey("pwdSU") ?: return false       // Yade0927
@@ -217,14 +259,38 @@ object KeyHelper {
         return true
     }
 
+    // Yade1017
+    fun resetKeys2(): Boolean {
+        keyIntegrityOk2 = false
+        val masterKeyEnc = Cipher.newMasterKey()
+        if (!writeKeyFile("master2", masterKeyEnc)) {
+            logger.error { "master key create error2" }
+            return false
+        }
+        logger.info { "master key created2" }
+
+        // backup & restore server key since server key is encrypted with master key
+        val cwmaServerKey = CwmaServer.key
+        masterKey2 = Cipher.parseMasterKey(masterKeyEnc)
+        CwmaServer.key = cwmaServerKey
+
+        Key.adminKey = createKeyWithMasterKey2("admin") ?: return false      // Yade1012
+        Key.defaultKey = createKeyWithMasterKey2("default") ?: return false   // Yade1012, 1017
+
+        logger.info { "all keys created2" }
+        keyIntegrityOk2 = true
+        Settings.keyRenewedDate2 = LocalDateTime.now()
+
+        return true
+    }
     fun renewKeys(): Boolean {
         if (!keyIntegrityOk) {
             logger.error { "cannot renew keys. key integrity error" }
             return false
         }
         // backup current keys
-        val prevTmsKey = Key.tmsKey
-        val prevTms2Key = Key.tms2Key
+//        val prevTmsKey = Key.tmsKey
+//        val prevTms2Key = Key.tms2Key
         val prevPhotoKey = Key.photoKey
         val prevPwdKey = Key.pwdKey
         val prevIdsnKey = Key.idsnKey
@@ -279,5 +345,28 @@ object KeyHelper {
             logger.error { "cannot renew keys. key reset error" }
             return false
         }
+    }
+    // Yade1017
+    fun renewKeys2(): Boolean {
+        if (!keyIntegrityOk2) {
+            logger.error { "cannot renew keys. key integrity error2" }
+            return false
+        }
+        // backup current keys
+        val prevDefaultKey = Key.defaultKey
+        val prevAdminKey = Key.adminKey
+        val prevPwdKey = Key.pwdKey
+
+        // create new keys. convert data
+        if (resetKeys2()) {
+            ///////////////////////////////////////////////////////////////////////////
+            // 관리자 암호 업데이트
+            ///////////////////////////////////////////////////////////////////////////
+            logger.info { "update password" }
+            val password = Settings.password.decrypt(prevPwdKey, "pw")
+            logger.info { "관리자 암호(in plain text): $password" }     // Yade0924
+            Settings.password = password.encrypt(Key.pwdKey, "pw")
+        }
+        return true
     }
 }
