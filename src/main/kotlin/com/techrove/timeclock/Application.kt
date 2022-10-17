@@ -46,12 +46,6 @@ class Application : App(MainView::class, Styles::class) {
         stage.width = 768.0
         stage.height = 1024.0
 
-        // 디폴트키(DEFAULT_KEY) 무결성 체크
-//        if (!KeyHelper.checkFileSha("./serverKey/defaultKey.bin")) {
-//            logger.error("디폴트키에서 무결성 오류가 발생했습니다.")
-//        } else
-//            logger.info("디폴트키 무결성 체크 OK.")
-
 //
 //        keyName = "adminKey"
 //        var adminKeyDec = File(dir, "${keyName}.dec").readText()
@@ -62,25 +56,6 @@ class Application : App(MainView::class, Styles::class) {
 //        adminKeyDec = adminKeyEnc.decrypt(Key.tmsKey, "tms")
 //        logger.info("관리자키2(Enc/Dec)-${adminKeyEnc}/${adminKeyDec}")
 
-        var base64EncData = Settings.DEFAULT_KEY_ENC // preference(userPref, "DEFAULT_KEY_ENC", "")
-
-        logger.info("디폴트키(Enc)-${base64EncData}")
-        var base64DecData = Base64.decode(base64EncData)
-        Settings.DEFAULT_KEY = String(base64DecData)
-        logger.info("디폴트키(Dec) " + Settings.DEFAULT_KEY)
-
-        // 관리자키(ADMIN_KEY) 무결성 체크
-//        if (!KeyHelper.checkFileSha("./serverKey/adminKey.bin")) {
-//            logger.error("관리자키에서 무결성 오류가 발생했습니다.")
-//        } else
-//            logger.info("관리자키 무결성 OK.")
-
-        base64EncData = Settings.ADMIN_KEY_ENC // preference(userPref, "DEFAULT_KEY_ENC", "")
-        logger.info("관리자키(Enc) : " + base64EncData)
-        base64DecData = Base64.decode(base64EncData)
-        Settings.ADMIN_KEY = String(base64DecData)
-        base64EncData = Settings.ADMIN_KEY_ENC
-        logger.info("관리자키(Dec) : " + Settings.ADMIN_KEY)
 
         var passwordEnc = Settings.password
         var password = Settings.password.decrypt(Key.pwdKey, "pw")  // Yade0924
@@ -92,47 +67,22 @@ class Application : App(MainView::class, Styles::class) {
         password = Settings.sFTPPassword.decrypt(Key.pwdSFKey, "sFpw")  // Yade0924
         logger.info { "sFTP 암호(in plain text/Encoded): $password($passwordEnc)" }     // Yade0924
 
+        // AES-256으로 암호화된 디폴트키를 복호화
         var dir = "./keys"
         var keyName = "defaultKey"
+        var defaultKeyEnc = Settings.DEFAULT_KEY_AES_ENC
+        var defaultKeyDec = defaultKeyEnc.decrypt(Key.defaultKey)
+        logger.info("${keyName}-2 by AES-256(Enc/Dec)-${defaultKeyEnc}/${defaultKeyDec}")
+        Settings.DEFAULT_KEY = defaultKeyDec
+        logger.info("${keyName}-3 Original-${Settings.DEFAULT_KEY}")
 
-        // 디폴트키 AES-256 복호화/암호화 검증 - 플레인 텍스트의 비교로는 복호화가 잘 되지만, 키로써의 동작을 안함...base64로 롤백
-//        var defaultKeyDec = Settings.DEFAULT_KEY // .toByteArray() // File(dir, "${keyName}.dec").readText()
-//        //var defaultKeyDec = Settings.DEFAULT_KEY.toByteArray() // File(dir, "${keyName}.dec").readText()
-//        logger.info("디폴트키0 by AES-256(Dec)-${defaultKeyDec}")
-//        var defaultKeyEnc = defaultKeyDec.encrypt(Key.tmsKey)
-//        logger.info("디폴트키0 by AES-256(Enc)-${defaultKeyEnc}")
-//        File(dir, "${keyName}.bin").writeText(defaultKeyEnc)
-//        logger.info("디폴트키1 by AES-256(Enc/Dec)-${defaultKeyEnc}/${defaultKeyDec}")
-////        defaultKeyEnc = Settings.DEFAULT_KEY_ENC // File(dir, "${keyName}.bin").readText()
-//        var defaultKeyDec2 = defaultKeyEnc.decrypt(Key.tmsKey)
-//        logger.info("${keyName}-2 by AES-256(Enc/Dec)-${defaultKeyEnc}/${defaultKeyDec2}")
-//        logger.info("${keyName}-3 Original-${Settings.DEFAULT_KEY}")
-//        var defaultKeyDec3 = File(dir, "${keyName}.dec").readText()
-//        if (Settings.DEFAULT_KEY.length == defaultKeyDec2.length) {
-//            logger.info("동일한 길이")
-//        }
-//        if (Settings.DEFAULT_KEY == defaultKeyDec) {
-//            logger.info("동일한 문자열: ${Settings.DEFAULT_KEY}/${defaultKeyDec}")
-//        }
-
-//        Settings.DEFAULT_KEY = defaultKeyDec
-//        logger.info("${keyName}-3 by AES-256(Dec)-${Settings.DEFAULT_KEY}")
-//
-//        keyName = "adminKey"
-//        // 디폴트키 AES-256 복호화/암호화 검증
-//        defaultKeyDec = File(dir, "${keyName}.dec").readText()
-//        logger.info("${keyName}-0 by AES-256(Dec)-${defaultKeyDec}")
-//        defaultKeyEnc = defaultKeyDec.encrypt(Key.tmsKey, "tms")
-//        logger.info("${keyName}-0 by AES-256(Enc)-${defaultKeyEnc}")
-//        File(dir, "${keyName}.bin").writeText(defaultKeyEnc)
-//        logger.info("${keyName}-1 by AES-256(Enc/Dec)-${defaultKeyEnc}/${defaultKeyDec}")
-//        defaultKeyEnc = Settings.ADMIN_KEY_ENC
-//        defaultKeyEnc = File(dir, "${keyName}.bin").readText()
-//        defaultKeyDec = defaultKeyEnc.decrypt(Key.tms2Key, "tms2")
-//        logger.info("${keyName}-2 by AES-256(Enc/Dec)-${defaultKeyEnc}/${defaultKeyDec}")
-//        defaultKeyDec = File(dir, "${keyName}.dec").readText()
-//        Settings.ADMIN_KEY = defaultKeyDec
-//        logger.info("${keyName}-3 by AES-256(Dec)-${Settings.ADMIN_KEY}")
+        // AES-256으로 암호화된 관리자키를 복호화
+        keyName = "adminKey"
+        var adminKeyEnc = Settings.ADMIN_KEY_AES_ENC
+        var adminKeyDec = adminKeyEnc.decrypt(Key.adminKey)
+        logger.info("${keyName}-2 by AES-256(Enc/Dec)-${adminKeyEnc}/${adminKeyDec}")
+        Settings.ADMIN_KEY = adminKeyDec
+        logger.info("${keyName}-3 Original-${Settings.ADMIN_KEY}")
 
         super.start(stage)
         if (isLinux) {
