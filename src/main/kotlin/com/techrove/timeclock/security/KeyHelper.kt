@@ -148,7 +148,7 @@ object KeyHelper {
     private fun createKeyWithMasterKey2(name: String): ByteArray? {
         val key = Cipher.newKey()
         val keyEnc = Cipher.encrypt(masterKey2, key)
-        if (!writeKeyFile(name, keyEnc)) {
+        if (!writeKeyFile2(name, keyEnc)) {
             logger.error { "$name key create error2" }
             return null
         }
@@ -303,7 +303,7 @@ object KeyHelper {
 
         logger.info { "all keys created2" }
         keyIntegrityOk2 = true
-        Settings.keyRenewedDate2 = LocalDateTime.now()
+//        Settings.keyRenewedDate2 = LocalDateTime.now()
 
         return true
     }

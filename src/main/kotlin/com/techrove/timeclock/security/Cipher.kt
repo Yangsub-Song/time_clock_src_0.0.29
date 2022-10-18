@@ -72,7 +72,9 @@ object Cipher {
     fun decrypt(key: ByteArray, input: ByteArray): ByteArray? {
         return try {
             val iv = input.copyOfRange(0, IV_LENGTH_BYTE)
-            logger.trace { "DEC key:${key.toHexString()} iv:${iv.toHexString()}" }
+            val gcm = GCMParameterSpec(TAG_LENGTH_BIT, iv)  // Yade01018
+            logger.trace { "DEC key:${key.toHexString()} iv:${iv.toHexString()}" +
+                    "gcm: ${gcm.toString()}" } // Yade01018
             cipher.init(
                 Cipher.DECRYPT_MODE,
                 SecretKeySpec(key, KEY_ALGORITHM),
