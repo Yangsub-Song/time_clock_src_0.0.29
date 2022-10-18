@@ -70,10 +70,10 @@ class Application : App(MainView::class, Styles::class) {
         // AES-256으로 암호화된 디폴트키를 복호화
         var dir = KeyHelper.keyDir2 // "./serverKeys"
         var keyName = "defaultKey"
-//        var base64EncData = Settings.DEFAULT_KEY_ENC
 
         KeyHelper.checkKeyIntegrity2()   // Yade1017
-/*        KeyHelper.keyIntegrityOk2 = true    // Yade1017
+/*        var base64EncData = Settings.DEFAULT_KEY_ENC
+        KeyHelper.keyIntegrityOk2 = true    // Yade1017
         KeyHelper.renewKeys2()              // Yade1017
         logger.info("${keyName}(Enc)-${base64EncData}")
         var defaultKeyDec64 = String(Base64.decode(base64EncData))

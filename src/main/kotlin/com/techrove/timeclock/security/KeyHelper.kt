@@ -60,6 +60,19 @@ object KeyHelper {
         return true
     }
 
+    // Yade1018
+    private fun writeKeyFile2(name: String, key: ByteArray): Boolean {
+        try {
+            File(keyDir2).mkdirs()
+            File(keyDir2, "${name}.bin").writeBytes(key)
+            File(keyDir2, "${name}.sha").writeText(key.digest().toHexString())
+        } catch (e: Exception) {
+            logger.error { "$name key write error2" }
+            logger.error { e }
+            return false
+        }
+        return true
+    }
     private fun readKeyFile(name: String): ByteArray? {
         return try {
             val key = File(keyDir, "${name}.bin").readBytes()
@@ -75,6 +88,21 @@ object KeyHelper {
         }
     }
 
+    // Yade1018
+    private fun readKeyFile2(name: String): ByteArray? {
+        return try {
+            val key = File(keyDir2, "${name}.bin").readBytes()
+            if (File(keyDir2, "${name}.sha").readText() == key.digest().toHexString()) {
+                key
+            } else {
+                logger.error { "$name key sha different2" }
+                null
+            }
+        } catch (e: Exception) {
+            logger.error { e }
+            null
+        }
+    }
     // Yade1004
     fun verifyKeyFile(dir: String, name: String, key: ByteArray): ByteArray? {
         return try {
@@ -185,7 +213,7 @@ object KeyHelper {
     // Yade1017
     private fun checkKeyIntegrityInternal2(): Boolean {
         keyIntegrityOk2 = false
-        val masterKeyEnc = readKeyFile("master2")
+        val masterKeyEnc = readKeyFile2("default_server")
         if (masterKeyEnc == null) {
             logger.error { "master key integrity error2" }
             return false
@@ -239,10 +267,6 @@ object KeyHelper {
         masterKey = Cipher.parseMasterKey(masterKeyEnc)
         CwmaServer.key = cwmaServerKey
 
-//        Key.tmsKey = createKeyWithMasterKey("tms") ?: return false
-//        Key.tms2Key = createKeyWithMasterKey("tms2") ?: return false
-//        Key.adminKey = createKeyWithMasterKey("admin") ?: return false      // Yade1012
-//        Key.defaultKey = createKeyWithMasterKey("default") ?: return false   // Yade1012, 1017
         Key.photoKey = createKeyWithMasterKey("photo") ?: return false
         Key.pwdKey = createKeyWithMasterKey("pwd") ?: return false
         Key.pwdSUKey = createKeyWithMasterKey("pwdSU") ?: return false       // Yade0927
@@ -263,7 +287,7 @@ object KeyHelper {
     fun resetKeys2(): Boolean {
         keyIntegrityOk2 = false
         val masterKeyEnc = Cipher.newMasterKey()
-        if (!writeKeyFile("master2", masterKeyEnc)) {
+        if (!writeKeyFile2("default_server", masterKeyEnc)) {
             logger.error { "master key create error2" }
             return false
         }
