@@ -135,6 +135,19 @@ object KeyHelper {
         }
     }
 
+    // Yade1018
+    private fun checkIntegrityWithMasterKey2(name: String): ByteArray? {
+        val keyEnc = readKeyFile2(name)
+        if (keyEnc == null) {
+            logger.error { "$name key integrity check error2" }
+            return null
+        }
+        return Cipher.decrypt(masterKey, keyEnc) ?: run {
+            logger.error { "$name key integrity check decrypt error2" }
+            return null
+        }
+    }
+
     private fun createKeyWithMasterKey(name: String): ByteArray? {
         val key = Cipher.newKey()
         val keyEnc = Cipher.encrypt(masterKey, key)
@@ -220,8 +233,8 @@ object KeyHelper {
         }
         masterKey = Cipher.parseMasterKey(masterKeyEnc)
 
-        Key.defaultKey = checkIntegrityWithMasterKey("default") ?: return false     // Yade1012, 1017
-        Key.adminKey = checkIntegrityWithMasterKey("admin") ?: return false         // Yade1012
+        Key.defaultKey = checkIntegrityWithMasterKey2("default") ?: return false     // Yade1012, 1017
+        Key.adminKey = checkIntegrityWithMasterKey2("admin") ?: return false         // Yade1012
 
         logger.info { "integrity check done2" }
         keyIntegrityOk2 = true

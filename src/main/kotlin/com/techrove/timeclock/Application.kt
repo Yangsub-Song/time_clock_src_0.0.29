@@ -71,8 +71,8 @@ class Application : App(MainView::class, Styles::class) {
         var dir = KeyHelper.keyDir2 // "./serverKeys"
         var keyName = "defaultKey"
 
-//        KeyHelper.checkKeyIntegrity2()   // Yade1017
-        var base64EncData = Settings.DEFAULT_KEY_ENC
+        KeyHelper.checkKeyIntegrity2()   // Yade1017
+/*        var base64EncData = Settings.DEFAULT_KEY_ENC
         KeyHelper.keyIntegrityOk2 = true    // Yade1017
         KeyHelper.renewKeys2()              // Yade1017
         logger.info("${keyName}(Enc)-${base64EncData}")
@@ -87,7 +87,7 @@ class Application : App(MainView::class, Styles::class) {
         logger.info("${keyName}0 by AES-256(Enc)-${defaultKeyEnc256_2}")
         File(dir, "${keyName}.enc").writeText(defaultKeyEnc256_2)
 //        var defaultKeyEnc256 = File(dir, "${keyName}.enc").readText() // Settings.DEFAULT_KEY_AES_ENC
-        var defaultKeyEnc256 = Settings.DEFAULT_KEY_AES_ENC
+*/        var defaultKeyEnc256 = Settings.DEFAULT_KEY_AES_ENC
         var defaultKeyDec256 = defaultKeyEnc256.decrypt(Key.defaultKey, "default")
         logger.info("${keyName}-2 by AES-256(Enc/Dec)-${defaultKeyEnc256}/${defaultKeyDec256}")
         Settings.DEFAULT_KEY = defaultKeyDec256
@@ -95,7 +95,7 @@ class Application : App(MainView::class, Styles::class) {
 
         // AES-256으로 암호화된 관리자키를 복호화
         keyName = "adminKey"
-        var adminKeyEnc64 = Settings.ADMIN_KEY_ENC  // base64 encrypted
+/*        var adminKeyEnc64 = Settings.ADMIN_KEY_ENC  // base64 encrypted
         logger.info("${keyName} base64(Enc) : " + adminKeyEnc64)
         var adminKeyDec64 = String(Base64.decode(adminKeyEnc64))
 //        Settings.ADMIN_KEY = String(adminDecData)
@@ -106,7 +106,7 @@ class Application : App(MainView::class, Styles::class) {
         File(dir, "${keyName}.enc").writeText(adminKeyEnc256)
         logger.info("${keyName}1 by AES-256(Enc/Dec)-${adminKeyEnc256}/${adminKeyDec64}")
 //        var adminKeyEnc = File(dir, "${keyName}.enc").readText() // Settings.ADMIN_KEY_AES_ENC
-        var adminKeyEnc = Settings.ADMIN_KEY_AES_ENC
+*/        var adminKeyEnc = Settings.ADMIN_KEY_AES_ENC
         var adminKeyDec = adminKeyEnc.decrypt(Key.adminKey, "admin")
         logger.info("${keyName}-2 by AES-256(Enc/Dec)-${adminKeyEnc}/${adminKeyDec}")
         Settings.ADMIN_KEY = adminKeyDec
