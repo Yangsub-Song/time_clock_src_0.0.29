@@ -7,8 +7,10 @@ import com.techrove.timeclock.controller.model.InfoMessage
 import com.techrove.timeclock.io.Audio
 import com.techrove.timeclock.isLinux
 import com.techrove.timeclock.security.Key
+import com.techrove.timeclock.security.KeyHelper
 import com.techrove.timeclock.security.decrypt
 import com.techrove.timeclock.view.admin.AdminView
+//import com.techrove.timeclock.view.admin.logger
 import com.techrove.timeclock.view.custom.IconType
 import com.techrove.timeclock.view.custom.bottomButton
 import com.techrove.timeclock.view.custom.numberTextField
@@ -19,8 +21,11 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.javafx.JavaFx
 import kotlinx.coroutines.launch
+import mu.KotlinLogging
 import tornadofx.*
 import tornadofx.FX.Companion.primaryStage
+
+private val logger = KotlinLogging.logger("BottomViewAdmin")    // Yade1021
 
 // 개발용
 private val useAdminPassword = isLinux
@@ -53,6 +58,17 @@ private fun openAdminView(registerFinger: Boolean = false, changePassword: Boole
 }
 
 fun Pane.tryAdminView(controller: MainController, registerFinger: Boolean = false, changePassword: Boolean = false) {
+    // 키 유효성 체크. UI 처리는 MainView 에서 함.
+    if (KeyHelper.checkKeyIntegrity()       // Yade1021
+        && KeyHelper.checkKeyIntegrity2()
+        && KeyHelper.verifyKeyFile(KeyHelper.keyDir3, "adminKey", Settings.ADMIN_KEY_AES_ENC)
+        && KeyHelper.verifyKeyFile(KeyHelper.keyDir3, "defaultKey", Settings.DEFAULT_KEY_AES_ENC)) { // Yade1020 ) { // Yade0916, Yade0926, Yade1020
+        logger.info { "무결성 체크 OK" }
+    } else {
+        logger.info { "무결성 체크 Error" }
+        find(MainView::class).showIntegrityErrorDialog()   // Yade0926
+        return@tryAdminView
+    }
     controller.password = ""
     // 암호 변경 요청시에는 non-closable. 취소 버튼 없음
     timeoutDialog(
@@ -66,7 +82,7 @@ fun Pane.tryAdminView(controller: MainController, registerFinger: Boolean = fals
         buttons = listOf(if (changePassword) "" else "취소", "확인"),
         op = { formPassword(controller) }) {
         if (it == 1) {
-            if (controller.password == Settings.password.decrypt(Key.pwdKey, "pwd")) {  // Yade1011 pw -> pwd
+            if (controller.password == Settings.password.decrypt(Key.pwdKey, "pw")) {  // Yade1011 pw -> pwd 1021다시 원복
                 openAdminView(registerFinger, changePassword)
             } else {
                 controller.infoMessage =

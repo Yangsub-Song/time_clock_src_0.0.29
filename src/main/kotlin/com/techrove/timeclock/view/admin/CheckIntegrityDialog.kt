@@ -1,15 +1,21 @@
 package com.techrove.timeclock.view.admin
 
+import com.techrove.timeclock.Settings
 import com.techrove.timeclock.Styles
 import com.techrove.timeclock.controller.admin.SettingsController
 import com.techrove.timeclock.io.Audio
+import com.techrove.timeclock.security.KeyHelper
+import com.techrove.timeclock.view.MainView
 import com.techrove.timeclock.view.custom.IconType
 import com.techrove.timeclock.view.custom.timeoutDialog
 import com.techrove.timeclock.view.custom.timeoutDialogClose
 import javafx.scene.paint.Color
 import javafx.scene.text.TextAlignment
 import javafx.scene.text.TextFlow
+import mu.KotlinLogging
 import tornadofx.*
+
+private val logger = KotlinLogging.logger("CheckIntegrityDialog")    // Yade1021
 
 /**
  * 보안 체크 dialog
@@ -50,6 +56,17 @@ fun AdminCenterViewVbox.checkIntegrityDialog() {
  */
 private fun AdminCenterViewVbox.onCheckClicked() {
     val controller = find(SettingsController::class)
+    // 키 유효성 체크. UI 처리는 MainView 에서 함.
+    if (KeyHelper.checkKeyIntegrity()       // Yade1021
+        && KeyHelper.checkKeyIntegrity2()
+        && KeyHelper.verifyKeyFile(KeyHelper.keyDir3, "adminKey", Settings.ADMIN_KEY_AES_ENC)
+        && KeyHelper.verifyKeyFile(KeyHelper.keyDir3, "defaultKey", Settings.DEFAULT_KEY_AES_ENC)) { // Yade1020 ) { // Yade0916, Yade0926, Yade1020
+        logger.info { "무결성 체크 OK" }
+    } else {
+        logger.info { "무결성 체크 Error" }
+        find(MainView::class).showIntegrityErrorDialog()   // Yade0926
+        return@onCheckClicked
+    }
     controller.checkSecurity { swIntegrityOk, keyIntegrityOk, passwordExpiryDaysRemaining, keyExpiryDaysRemaining ->
         timeoutDialog(
             title = "보안 체크",
