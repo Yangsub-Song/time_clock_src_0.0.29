@@ -129,7 +129,8 @@ fun MainController.initNetwork() {
         if (!on) return@onChange
 
         // 키 유효성 체크. UI 처리는 MainView 에서 함.
-        if (KeyHelper.checkKeyIntegrity()) { // Yade0916
+        if (KeyHelper.checkKeyIntegrity()
+            && KeyHelper.checkKeyIntegrity2()) { // Yade0916, Yade0926, Yade1020
             logger.info { "무결성 체크 OK" }
         } else {
             logger.info { "무결성 체크 Error" }

@@ -41,6 +41,7 @@ object KeyHelper {
 
     private const val keyDir = "./keys"
     const val keyDir2 = "./serverKeys"  // Yade1017
+    const val keyDir3 = "./serverKeys2"  // Yade1017
 
     var swIntegrityOk = false
     var keyIntegrityOk = false
@@ -61,13 +62,27 @@ object KeyHelper {
     }
 
     // Yade1018
-    private fun writeKeyFile2(name: String, key: ByteArray): Boolean {
+    fun writeKeyFile2(name: String, key: ByteArray): Boolean {
         try {
             File(keyDir2).mkdirs()
             File(keyDir2, "${name}.bin").writeBytes(key)
             File(keyDir2, "${name}.sha").writeText(key.digest().toHexString())
         } catch (e: Exception) {
             logger.error { "$name key write error2" }
+            logger.error { e }
+            return false
+        }
+        return true
+    }
+    // Yade1020
+    //
+    fun writeKeyFile3(name: String, key: String): Boolean {
+        try {
+            File(keyDir3).mkdirs()
+            File(keyDir3, "${name}.bin").writeText(key)
+            File(keyDir3, "${name}.sha").writeText(key.toByteArray().digest().toHexString())
+        } catch (e: Exception) {
+            logger.error { "$name key write error3" }
             logger.error { e }
             return false
         }
@@ -103,23 +118,41 @@ object KeyHelper {
             null
         }
     }
-    // Yade1004
-    fun verifyKeyFile(dir: String, name: String, key: ByteArray): ByteArray? {
+    // Yade1020 - Prefs.xml에 있는 키값에 대한 무결성 체크 DEFAULT_KEY_AES_ENC, ADMIN_KEY_AES_ENC
+    private fun checkKeyFilePrefs(name: String, key: ByteArray): ByteArray? {
         return try {
-//            val key = File(dir, "${name}.bin").readBytes()
-//            logger.error { "$name key sha different" }
-            val readSha = File(dir, "${name}.sha").readText()
-            val madeSha = key.digest().toHexString() // .toStrin(0 String(key.digest())
-            logger.info { "$readSha(read) --- $madeSha(made)" }
-            if (readSha == madeSha) {
+            val key = File(keyDir2, "${name}.bin").readBytes()
+            if (File(keyDir2, "${name}.sha").readText() == key.digest().toHexString()) {
                 key
             } else {
-                logger.error { "$name key sha different" }
+                logger.error { "$name key sha different2" }
                 null
             }
         } catch (e: Exception) {
             logger.error { e }
             null
+        }
+    }
+    // Yade1004, 1020
+    fun verifyKeyFile(dir: String, name: String, key: String): Boolean {
+        return try {
+            val readSha = File(dir, "${name}.sha").readText()
+            val madeSha = key.toByteArray().digest().toHexString() // toHexString=>toString by Yade1020
+//            logger.info { "$readSha(read) --- $madeSha(made)" }
+            if (readSha == madeSha) {
+               true
+            } else {
+                logger.error { "$name key sha different" }
+                File("./serverKeys").deleteRecursively()    // Yade1020
+                File("./serverKeys2").deleteRecursively()    // Yade1020
+                File("./keys").deleteRecursively()    // Yade1020
+//                Settings.clear()                                        // Yadee1020
+                File("/root/.java/.userPrefs/com/techrove/timeclock/utils/prefs.xml").delete()    // Yade1020
+                false
+            }
+        } catch (e: Exception) {
+            logger.error { e }
+            false
         }
     }
 
@@ -224,6 +257,7 @@ object KeyHelper {
     }
 
     // Yade1017
+    // 디폴트키와 관리자키를 default_server.bin에 저장되어 있던 마스터키를 이용하여 각각의 private key로 생성한다
     private fun checkKeyIntegrityInternal2(): Boolean {
         keyIntegrityOk2 = false
         val masterKeyEnc = readKeyFile2("default_server")
@@ -241,11 +275,26 @@ object KeyHelper {
 
         return true
     }
+    // Yade1020
+    // 디폴트키와 관리자키를 prefs.xml에 있는 암호의 무결성 체크
+    private fun checkKeyIntegrityInternal3(): Boolean {
+        keyIntegrityOk2 = false
+
+
+        logger.info { "integrity check done2" }
+        keyIntegrityOk2 = true
+
+        return true
+    }
 
     fun checkKeyIntegrity(): Boolean {
         return checkKeyIntegrityInternal().also {
             if (!it) {
                 File("./keys").deleteRecursively()
+                File("./serverKeys").deleteRecursively()    // Yade1020
+                File("./serverKeys2").deleteRecursively()    // Yade1020
+//                Settings.clear()                                        // Yadee1020
+                File("/root/.java/.userPrefs/com/techrove/timeclock/utils/prefs.xml").delete()    // Yade1020
             }
         }
     }
@@ -254,10 +303,15 @@ object KeyHelper {
     fun checkKeyIntegrity2(): Boolean {
         return checkKeyIntegrityInternal2().also {
             if (!it) {
-//                File("./serverKeys").deleteRecursively()
+                File("./serverKeys").deleteRecursively()
+                File("./serverKeys2").deleteRecursively()    // Yade1020
+                File("./keys").deleteRecursively()    // Yade1020
+//                Settings.clear()                                        // Yadee1020
+                File("/root/.java/.userPrefs/com/techrove/timeclock/utils/prefs.xml").delete()    // Yade1020
             }
         }
     }
+
     private fun deleteAllPictures() {
         ///////////////////////////////////////////////////////////////////////////
         // 사진 폴더 삭제

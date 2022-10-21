@@ -49,9 +49,11 @@ object Cipher {
 
     fun parseMasterKey(key: ByteArray): ByteArray {
         val parsedKey = ByteArray(AES_KEY_BIT / 8)
+//        logger.info("Master Key: ${key.toHexString()}")     // Yade1020
         for (i in (0 until AES_KEY_BIT / 8)) {
             parsedKey[i] = key[i * 64 + i]
         }
+//        logger.info("Parsed Key: ${parsedKey.toHexString()}")     // Yade1020
         return parsedKey
         //return key.copyOfRange(0, AES_KEY_BIT/8)
     }

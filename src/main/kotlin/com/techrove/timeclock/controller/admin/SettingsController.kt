@@ -183,7 +183,10 @@ class SettingsController : BaseController() {
             delay(3000)
             if (KeyHelper.checkSwIntegrity()) {
                 KeyHelper.checkKeyIntegrity()
-            }
+                KeyHelper.checkKeyIntegrity2()  // Yade1020
+                KeyHelper.verifyKeyFile(KeyHelper.keyDir3, "adminKey", Settings.ADMIN_KEY_AES_ENC)      // Yade1020
+                KeyHelper.verifyKeyFile(KeyHelper.keyDir3, "defaultKey", Settings.DEFAULT_KEY_AES_ENC)  // Yade1020
+                }
             val now = LocalDateTime.now()
             val passwordExpiryDate =
                 Settings.passwordRenewedDate.plusYears(Settings.PASSWORD_VALID_YEAR)

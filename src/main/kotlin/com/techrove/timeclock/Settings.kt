@@ -9,7 +9,7 @@ import java.time.LocalDateTime
 object Settings: Preference() {
     private const val VERSION_MAJOR = 0
     private const val VERSION_MINOR = 1
-    private const val VERSION_PATCH = 32    // Yade20220917, 0.0.29->0.0.30
+    private const val VERSION_PATCH = 33    // Yade20220917, 0.0.29->0.0.30
                                             // Yade20220924, 0.0.30->0.1.1  - SW 업데이트 암호 변경
                                             // Yade20220925, 0.0.30->0.1.2  - sFTP 암호 변경
                                             // Yade20220925, 0.0.30->0.1.3  - terminalId, placeId, adminHost, cwmaHost 하드코딩 제거
