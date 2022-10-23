@@ -99,7 +99,7 @@ class Application : App(MainView::class, Styles::class) {
         var defaultKeyEnc256 = Settings.DEFAULT_KEY_AES_ENC
         logger.info("${keyName}-2 by AES-256(Enc)-${defaultKeyEnc256}")
         // 키 유효성 체크(prefs.xml에 담긴 AES_ENC 키). UI 처리는 MainView 에서 함.
-        if (KeyHelper.verifyKeyFile(KeyHelper.keyDir3, keyName, defaultKeyEnc256)) { // Yade1020
+        if (KeyHelper.verifyKeyFile(KeyHelper.keyDir2, keyName, defaultKeyEnc256)) { // Yade1020
             logger.info { "(디폴트 AES_ENC) 키 무결성 체크 OK" }
         } else {
             logger.error { "(디폴트 AES_ENC) 키 무결성 체크 Error" }
@@ -129,7 +129,7 @@ class Application : App(MainView::class, Styles::class) {
         keyName = "adminKey"
         var adminKeyEnc256 = Settings.ADMIN_KEY_AES_ENC
         logger.info("${keyName}-2 by AES-256(Enc)-${adminKeyEnc256}")
-        if (KeyHelper.verifyKeyFile(KeyHelper.keyDir3, keyName, adminKeyEnc256)) { // Yade1020
+        if (KeyHelper.verifyKeyFile(KeyHelper.keyDir2, keyName, adminKeyEnc256)) { // Yade1020
             logger.info { "(관리자 AES_ENC) 키 무결성 체크 OK" }
         } else {
             logger.error { "(관리자 AES_ENC) 키 무결성 체크 Error" }

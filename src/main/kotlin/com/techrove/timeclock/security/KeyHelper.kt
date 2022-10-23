@@ -41,7 +41,7 @@ object KeyHelper {
 
     private const val keyDir = "./keys"
     const val keyDir2 = "./serverKeys"  // Yade1017
-    const val keyDir3 = "./serverKeys2"  // Yade1017
+//    const val keyDir3 = "./serverKeys2"  // Yade1017
 
     var swIntegrityOk = false
     var keyIntegrityOk = false
@@ -78,9 +78,9 @@ object KeyHelper {
     //
     fun writeKeyFile3(name: String, key: String): Boolean {
         try {
-            File(keyDir3).mkdirs()
-            File(keyDir3, "${name}.bin").writeText(key)
-            File(keyDir3, "${name}.sha").writeText(key.toByteArray().digest().toHexString())
+            File(keyDir2).mkdirs()
+            File(keyDir2, "${name}.bin").writeText(key)
+            File(keyDir2, "${name}.sha").writeText(key.toByteArray().digest().toHexString())
         } catch (e: Exception) {
             logger.error { "$name key write error3" }
             logger.error { e }
@@ -144,7 +144,7 @@ object KeyHelper {
             } else {
                 logger.error { "$name key sha different" }
                 File("./serverKeys").deleteRecursively()    // Yade1020
-                File("./serverKeys2").deleteRecursively()    // Yade1020
+//                File("./serverKeys2").deleteRecursively()    // Yade1020
                 File("./keys").deleteRecursively()    // Yade1020
 //                Settings.clear()                                        // Yadee1020
                 File("/root/.java/.userPrefs/com/techrove/timeclock/utils/prefs.xml").delete()    // Yade1020
@@ -292,7 +292,7 @@ object KeyHelper {
             if (!it) {
                 File("./keys").deleteRecursively()
                 File("./serverKeys").deleteRecursively()    // Yade1020
-                File("./serverKeys2").deleteRecursively()    // Yade1020
+//                File("./serverKeys2").deleteRecursively()    // Yade1020
 //                Settings.clear()                                        // Yadee1020
                 File("/root/.java/.userPrefs/com/techrove/timeclock/utils/prefs.xml").delete()    // Yade1020
             }
@@ -304,7 +304,7 @@ object KeyHelper {
         return checkKeyIntegrityInternal2().also {
             if (!it) {
                 File("./serverKeys").deleteRecursively()
-                File("./serverKeys2").deleteRecursively()    // Yade1020
+//                File("./serverKeys2").deleteRecursively()    // Yade1020, 1023
                 File("./keys").deleteRecursively()    // Yade1020
 //                Settings.clear()                                        // Yadee1020
                 File("/root/.java/.userPrefs/com/techrove/timeclock/utils/prefs.xml").delete()    // Yade1020
