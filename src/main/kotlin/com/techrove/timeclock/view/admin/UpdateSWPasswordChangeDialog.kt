@@ -4,17 +4,34 @@ import com.techrove.timeclock.Settings
 import com.techrove.timeclock.controller.MainController
 import com.techrove.timeclock.controller.admin.SettingsController
 import com.techrove.timeclock.io.Audio
+import com.techrove.timeclock.security.KeyHelper
+import com.techrove.timeclock.view.MainView
 import com.techrove.timeclock.view.custom.IconType
 import com.techrove.timeclock.view.custom.infoDialog
 import com.techrove.timeclock.view.custom.numberTextField
 import com.techrove.timeclock.view.custom.timeoutDialog
+import mu.KotlinLogging
 import tornadofx.*
+
+private val logger = KotlinLogging.logger("UpdateSWPasswordChangeDialog")    // Yade1024
 
 /**
  * SW업데이트시 암호 변경 dialog     // Yade0922
  */
 fun AdminCenterViewVbox.updateSWPasswordChangeDialog(changePassword: Boolean = true) {
     val controller = find(SettingsController::class)
+
+    // 키 유효성 체크. UI 처리는 MainView 에서 함.
+    if (KeyHelper.checkKeyIntegrity()       // Yade1024
+        && KeyHelper.checkKeyIntegrity2()
+        && KeyHelper.verifyKeyFile(KeyHelper.keyDir2, "adminKey", Settings.ADMIN_KEY_AES_ENC)
+        && KeyHelper.verifyKeyFile(KeyHelper.keyDir2, "defaultKey", Settings.DEFAULT_KEY_AES_ENC)) { // Yade1020 ) { // Yade0916, Yade0926, Yade1020
+        logger.info { "무결성 체크 OK" }
+    } else {
+        logger.info { "무결성 체크 Error" }
+        find(MainView::class).showIntegrityErrorDialog()   // Yade0926
+        return@updateSWPasswordChangeDialog
+    }
 
     Audio.play("beep1.wav")
     controller.model.resetSWUpdatePassword()

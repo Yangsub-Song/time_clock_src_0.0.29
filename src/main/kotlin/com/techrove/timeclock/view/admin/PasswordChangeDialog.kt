@@ -9,24 +9,11 @@ import com.techrove.timeclock.view.custom.numberTextField
 import com.techrove.timeclock.view.custom.timeoutDialog
 import tornadofx.*
 
-import com.techrove.timeclock.Styles
-import com.techrove.timeclock.controller.MainController
-import com.techrove.timeclock.controller.model.InfoMessage
-import com.techrove.timeclock.isLinux
-import com.techrove.timeclock.security.Key
-import com.techrove.timeclock.security.decrypt
-import com.techrove.timeclock.view.admin.AdminView
-import com.techrove.timeclock.view.custom.bottomButton
-import com.techrove.timeclock.view.custom.numberTextField
-import com.techrove.timeclock.view.custom.timeoutDialog
-import javafx.scene.layout.Pane
-import javafx.scene.layout.VBox
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.javafx.JavaFx
-import kotlinx.coroutines.launch
-import tornadofx.*
-import tornadofx.FX.Companion.primaryStage
+import com.techrove.timeclock.security.KeyHelper
+import com.techrove.timeclock.view.MainView
+import mu.KotlinLogging
+
+private val logger = KotlinLogging.logger("PasswordChangeDialog")    // Yade1021
 
 /**
  * 암호 변경 dialog
@@ -34,6 +21,17 @@ import tornadofx.FX.Companion.primaryStage
 fun AdminCenterViewVbox.passwordChangeDialog(changePassword: Boolean = true) {
     val controller = find(SettingsController::class)
 
+    // 키 유효성 체크. UI 처리는 MainView 에서 함.
+    if (KeyHelper.checkKeyIntegrity()       // Yade1024
+        && KeyHelper.checkKeyIntegrity2()
+        && KeyHelper.verifyKeyFile(KeyHelper.keyDir2, "adminKey", Settings.ADMIN_KEY_AES_ENC)
+        && KeyHelper.verifyKeyFile(KeyHelper.keyDir2, "defaultKey", Settings.DEFAULT_KEY_AES_ENC)) { // Yade1020 ) { // Yade0916, Yade0926, Yade1020
+        logger.info { "무결성 체크 OK" }
+    } else {
+        logger.info { "무결성 체크 Error" }
+        find(MainView::class).showIntegrityErrorDialog()   // Yade0926
+        return@passwordChangeDialog
+    }
     Audio.play("beep1.wav")
     controller.model.resetPassword()
     timeoutDialog(

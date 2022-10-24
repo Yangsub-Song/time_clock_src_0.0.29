@@ -1,7 +1,10 @@
 package com.techrove.timeclock.view.admin
 
+import com.techrove.timeclock.Settings
 import com.techrove.timeclock.io.Audio
+import com.techrove.timeclock.security.KeyHelper
 import com.techrove.timeclock.utils.SwUpdateUtils
+import com.techrove.timeclock.view.MainView
 import com.techrove.timeclock.view.custom.IconType
 import com.techrove.timeclock.view.custom.timeoutDialog
 import kotlinx.coroutines.Dispatchers
@@ -9,15 +12,31 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.javafx.JavaFx
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import mu.KotlinLogging
+import tornadofx.find
 import tornadofx.minutes
 import tornadofx.progressindicator
 import tornadofx.spacer
+
+private val logger = KotlinLogging.logger("swUpdateDialog")    // Yade1021
 
 /**
  * SW 수동 업데이트 dialog
  */
 fun AdminCenterViewVbox.swUpdateDialog() {
     Audio.play("beep1.wav")
+    // 키 유효성 체크. UI 처리는 MainView 에서 함.
+    if (KeyHelper.checkKeyIntegrity()       // Yade1024
+        && KeyHelper.checkKeyIntegrity2()
+        && KeyHelper.verifyKeyFile(KeyHelper.keyDir2, "adminKey", Settings.ADMIN_KEY_AES_ENC)
+        && KeyHelper.verifyKeyFile(KeyHelper.keyDir2, "defaultKey", Settings.DEFAULT_KEY_AES_ENC)) { // Yade1020 ) { // Yade0916, Yade0926, Yade1020
+        logger.info { "무결성 체크 OK" }
+    } else {
+        logger.info { "무결성 체크 Error" }
+        find(MainView::class).showIntegrityErrorDialog()   // Yade0926
+        return@swUpdateDialog
+    }
+
     if (!SwUpdateUtils.isUsbDriveMounted()) {
         infoDialogCustom(
             title = "SW 업데이트",

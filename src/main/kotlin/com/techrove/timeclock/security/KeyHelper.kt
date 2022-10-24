@@ -242,10 +242,6 @@ object KeyHelper {
         Key.pwdKey = checkIntegrityWithMasterKey("pwd") ?: return false
         Key.pwdSUKey = checkIntegrityWithMasterKey("pwdSU") ?: return false       // Yade0927
         Key.pwdSFKey = checkIntegrityWithMasterKey("pwdSF") ?: return false       // Yade0927
-//        Key.tmsKey = checkIntegrityWithMasterKey("tms") ?: return false
-//        Key.tms2Key = checkIntegrityWithMasterKey("tms2") ?: return false
-//        Key.defaultKey = checkIntegrityWithMasterKey("default") ?: return false     // Yade1012, 1017
-//        Key.adminKey = checkIntegrityWithMasterKey("admin") ?: return false         // Yade1012
         Key.photoKey = checkIntegrityWithMasterKey("photo") ?: return false
         Key.idsnKey = checkIntegrityWithMasterKey("idsn") ?: return false
         Key.cardKey = checkIntegrityWithMasterKey("card") ?: return false

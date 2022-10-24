@@ -24,12 +24,6 @@ fun AdminCenterViewVbox.showPicturesDialog() {
     else {
         logger.info { "무결성 체크 Error(사진보기)" }
         find(MainView::class).showIntegrityErrorDialog()   // Yade0926
-//        InfoMessage(              // Yade0922
-//            "무결성 체크 결과",
-//            "무결성 체크 Error(사진보기)",
-//            IconType.Error
-////            imageFile = photoProperty.value
-//        )
         return@showPicturesDialog
     }
     val controller = find(PictureController::class)
