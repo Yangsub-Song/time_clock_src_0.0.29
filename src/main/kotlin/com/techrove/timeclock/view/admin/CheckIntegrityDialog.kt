@@ -23,6 +23,18 @@ private val logger = KotlinLogging.logger("CheckIntegrityDialog")    // Yade1021
 fun AdminCenterViewVbox.checkIntegrityDialog() {
     Audio.play("beep1.wav")
 
+    // 키 유효성 체크. UI 처리는 MainView 에서 함.
+    if (KeyHelper.checkKeyIntegrity()       // Yade1021
+        && KeyHelper.checkKeyIntegrity2()
+        && KeyHelper.verifyKeyFile(KeyHelper.keyDir2, "adminKey", Settings.ADMIN_KEY_AES_ENC)
+        && KeyHelper.verifyKeyFile(KeyHelper.keyDir2, "defaultKey", Settings.DEFAULT_KEY_AES_ENC)) { // Yade1020 ) { // Yade0916, Yade0926, Yade1020
+        logger.info { "무결성 체크 OK" }
+    } else {
+        logger.info { "무결성 체크 Error" }
+        KeyHelper.keyIntegrityOk = false                    // Yade1024
+        find(MainView::class).showIntegrityErrorDialog()   // Yade0926
+        return@checkIntegrityDialog
+    }
     timeoutDialog(
         title = "보안 체크",
         message = "보안 체크를 진행합니다.",
@@ -56,17 +68,6 @@ fun AdminCenterViewVbox.checkIntegrityDialog() {
  */
 private fun AdminCenterViewVbox.onCheckClicked() {
     val controller = find(SettingsController::class)
-    // 키 유효성 체크. UI 처리는 MainView 에서 함.
-    if (KeyHelper.checkKeyIntegrity()       // Yade1021
-        && KeyHelper.checkKeyIntegrity2()
-        && KeyHelper.verifyKeyFile(KeyHelper.keyDir2, "adminKey", Settings.ADMIN_KEY_AES_ENC)
-        && KeyHelper.verifyKeyFile(KeyHelper.keyDir2, "defaultKey", Settings.DEFAULT_KEY_AES_ENC)) { // Yade1020 ) { // Yade0916, Yade0926, Yade1020
-        logger.info { "무결성 체크 OK" }
-    } else {
-        logger.info { "무결성 체크 Error" }
-        find(MainView::class).showIntegrityErrorDialog()   // Yade0926
-        return@onCheckClicked
-    }
     controller.checkSecurity { swIntegrityOk, keyIntegrityOk, passwordExpiryDaysRemaining, keyExpiryDaysRemaining ->
         timeoutDialog(
             title = "보안 체크",

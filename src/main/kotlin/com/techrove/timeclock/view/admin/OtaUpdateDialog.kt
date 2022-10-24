@@ -30,9 +30,13 @@ fun AdminCenterViewVbox.otaUpdateDialog() {
         && KeyHelper.checkKeyIntegrity2()
         && KeyHelper.verifyKeyFile(KeyHelper.keyDir2, "adminKey", Settings.ADMIN_KEY_AES_ENC)
         && KeyHelper.verifyKeyFile(KeyHelper.keyDir2, "defaultKey", Settings.DEFAULT_KEY_AES_ENC)) { // Yade1020 ) { // Yade0916, Yade0926, Yade1020
-        logger.info { "무결성 체크 OK" }
+        logger.info { "OTA업데이트 무결성 체크 OK${Settings.ADMIN_KEY_AES_ENC}" }
+        logger.info { "OTA업데이트 무결성 체크 OK${Settings.DEFAULT_KEY_AES_ENC}" }
     } else {
-        logger.info { "무결성 체크 Error" }
+        logger.info { "OTA업데이트 무결성 체크 Error" }
+        logger.info { "OTA업데이트 무결성 체크 Error${Settings.ADMIN_KEY_AES_ENC}" }
+        logger.info { "OTA업데이트 무결성 체크 Error${Settings.DEFAULT_KEY_AES_ENC}" }
+        KeyHelper.keyIntegrityOk = false                    // Yade1024
         find(MainView::class).showIntegrityErrorDialog()   // Yade0926
         return@otaUpdateDialog
     }

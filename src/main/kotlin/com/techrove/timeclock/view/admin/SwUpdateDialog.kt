@@ -33,6 +33,7 @@ fun AdminCenterViewVbox.swUpdateDialog() {
         logger.info { "무결성 체크 OK" }
     } else {
         logger.info { "무결성 체크 Error" }
+        KeyHelper.keyIntegrityOk = false                    // Yade1024
         find(MainView::class).showIntegrityErrorDialog()   // Yade0926
         return@swUpdateDialog
     }
