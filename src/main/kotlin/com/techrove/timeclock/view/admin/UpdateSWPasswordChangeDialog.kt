@@ -26,9 +26,9 @@ fun AdminCenterViewVbox.updateSWPasswordChangeDialog(changePassword: Boolean = t
         && KeyHelper.checkKeyIntegrity2()
         && KeyHelper.verifyKeyFile(KeyHelper.keyDir2, "adminKey", Settings.ADMIN_KEY_AES_ENC)
         && KeyHelper.verifyKeyFile(KeyHelper.keyDir2, "defaultKey", Settings.DEFAULT_KEY_AES_ENC)) { // Yade1020 ) { // Yade0916, Yade0926, Yade1020
-        logger.info { "무결성 체크 OK" }
+        logger.info { "무결성 체크 OK" }                     // [인증용로그]
     } else {
-        logger.info { "무결성 체크 Error" }
+        logger.info { "무결성 체크 Error" }                  // [인증용로그]
         KeyHelper.keyIntegrityOk = false                    // Yade1024
         find(MainView::class).showIntegrityErrorDialog()   // Yade0926
         return@updateSWPasswordChangeDialog
@@ -41,7 +41,6 @@ fun AdminCenterViewVbox.updateSWPasswordChangeDialog(changePassword: Boolean = t
         message = "3종류 이상의 문자(영문 대/소문자, 숫자, 특수문자) 8자리 이상 입력해주세요.",
         iconType = IconType.PassWord,
         keyboard = true,
-//        delay = if (changePassword) AdminView.defaultTimeout else null,   // Yade1017
         delay = if (changePassword) null else 30.seconds,                   // Yade1017
         closable = !changePassword,                                         // Yade1017
         lastEnabledWhen = controller.modelSU.valid,

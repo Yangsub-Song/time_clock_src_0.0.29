@@ -7,9 +7,9 @@ import java.time.LocalDateTime
  * 설정 object
  */
 object Settings: Preference() {
-    private const val VERSION_MAJOR = 0
-    private const val VERSION_MINOR = 1
-    private const val VERSION_PATCH = 33    // Yade20220917, 0.0.29->0.0.30
+    private const val VERSION_MAJOR = 1
+    private const val VERSION_MINOR = 0
+    private const val VERSION_PATCH = 1    // Yade20220917, 0.0.29->0.0.30
                                             // Yade20220924, 0.0.30->0.1.1  - SW 업데이트 암호 변경
                                             // Yade20220925, 0.0.30->0.1.2  - sFTP 암호 변경
                                             // Yade20220925, 0.0.30->0.1.3  - terminalId, placeId, adminHost, cwmaHost 하드코딩 제거
@@ -20,7 +20,7 @@ object Settings: Preference() {
                                             // Yade20221005, 0.1.54->0.1.30  - KTC향 릴리스
                                             // Yade20221014, 0.1.57->0.1.31  - KTC향 인증 버전 릴리스 - sw업데이트 암호/sFTP 암호 버튼 비활성화 문제 해결
                                             // Yade20221017, 0.1.59->0.1.32  - KTC향 인증 버전 릴리스 - 관리자/디폴트키 AES-256 암호화/복호와
-
+                                            // Yade20221025, 0.1.68->1.0.0   - KTC향 인증 버전 릴리스
 
     const val VERSION = "$VERSION_MAJOR.$VERSION_MINOR.$VERSION_PATCH"
 
@@ -33,22 +33,16 @@ object Settings: Preference() {
 
     const val INTEGRITY_CHECK_HOURS = 24L
 
-    //var adminHost: String by preference(userPref, "adminHost", "http://testing.centrali.co.kr")
-//    var adminHost: String by preference(userPref, "adminHost", "http://aplexcorp.iptime.org")
-    //    var adminHost: String by preference(userPref, "adminHost", "http://aplexcorp.iptime.org")
-    var adminHost: String by preference(userPref, "adminHost", "http://ez-m.co.kr")
+    var adminHost: String by preference(userPref, "adminHost", "")
 
-//    const val ADMIN_KEY = "WnZr4u7x!A%D*G-K"
-    var ADMIN_KEY = "" // : String by preference(userPref, "ADMIN_KEY", "")  // Yade0927 // ""WnZr4u7x!A%D*G-K"
+    var ADMIN_KEY = ""
     var ADMIN_KEY_ENC: String by preference(userPref, "ADMIN_KEY_ENC", "")  // Yade0927
     var ADMIN_KEY_AES_ENC: String by preference(userPref, "ADMIN_KEY_AES_ENC", "")
-    var cwmaHost: String by preference(userPref, "cwmaHost", "https://test_ecard.cwma.or.kr")
+    var cwmaHost: String by preference(userPref, "cwmaHost", "")
 
     // Yade0925
     var terminalId: String by preference(userPref, "terminalId", "100103970101713715177")   // terminalId와 placeCd의 초기값이 널이면 보안키 등록에서 에러가 남.
     var placeCd: String by preference(userPref, "placeCd", "064536")
-//    var terminalId: String by preference(userPref, "terminalId", "")
-//    var placeCd: String by preference(userPref, "placeCd", "")
 
     var password: String by preference(userPref, "PASSWORD", "")
     var passwordRenewedDate: LocalDateTime by preference(userPref, "PASSWORD_RENEWED", LocalDateTime.now())
@@ -67,6 +61,4 @@ object Settings: Preference() {
     var takePicture: Boolean by preference(userPref, "take_picture", true)
 
     var keyRenewedDate: LocalDateTime by preference(userPref, "KEY_RENEWED", LocalDateTime.now())
-
-//    var keyRenewedDate2: LocalDateTime by preference(userPref, "KEY_RENEWED2", LocalDateTime.now())
 }

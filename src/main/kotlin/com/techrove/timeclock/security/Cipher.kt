@@ -62,7 +62,7 @@ object Cipher {
         val iv = getSecureRand(IV_LENGTH_BYTE)
         val gcm = GCMParameterSpec(TAG_LENGTH_BIT, iv)  // Yade0919
         logger.trace { "ENC key:${key.toHexString()} iv:${iv.toHexString()} " +
-                "gcm: ${gcm.toString()}" } // Yade0919
+                "gcm: ${gcm.toString()}" } // Yade0919 // [인증용로그]
         cipher.init(
             Cipher.ENCRYPT_MODE,
             SecretKeySpec(key, KEY_ALGORITHM),
@@ -76,7 +76,7 @@ object Cipher {
             val iv = input.copyOfRange(0, IV_LENGTH_BYTE)
             val gcm = GCMParameterSpec(TAG_LENGTH_BIT, iv)  // Yade01018
             logger.trace { "DEC key:${key.toHexString()} iv:${iv.toHexString()}" +
-                    "gcm: ${gcm.toString()}" } // Yade01018
+                    "gcm: ${gcm.toString()}" } // Yade01018 // [인증용로그]
             cipher.init(
                 Cipher.DECRYPT_MODE,
                 SecretKeySpec(key, KEY_ALGORITHM),

@@ -16,7 +16,6 @@ object SshUtil {
         remoteUri: String,
         localFile: File,
         defaultUserName: String = "terminal",
-// Yade0925        defaultPassword: String = "wpqkfgjrkgowntpdy!",
         defaultPassword: String,
         defaultPort: Int = 32222,
     ): Boolean {

@@ -30,9 +30,9 @@ fun AdminCenterViewVbox.swUpdateDialog() {
         && KeyHelper.checkKeyIntegrity2()
         && KeyHelper.verifyKeyFile(KeyHelper.keyDir2, "adminKey", Settings.ADMIN_KEY_AES_ENC)
         && KeyHelper.verifyKeyFile(KeyHelper.keyDir2, "defaultKey", Settings.DEFAULT_KEY_AES_ENC)) { // Yade1020 ) { // Yade0916, Yade0926, Yade1020
-        logger.info { "무결성 체크 OK" }
+        logger.info { "무결성 체크 OK" }// [인증용로그]
     } else {
-        logger.info { "무결성 체크 Error" }
+        logger.info { "무결성 체크 Error" }// [인증용로그]
         KeyHelper.keyIntegrityOk = false                    // Yade1024
         find(MainView::class).showIntegrityErrorDialog()   // Yade0926
         return@swUpdateDialog

@@ -164,7 +164,7 @@ class MainController : BaseController(Dispatchers.IO) {
 
     /**
      * 시간 정보 업데이트. 주기적 동작 실행
-     * 
+     *
      * - 유효성 확인
      * - 암호키 자동 갱신
      * - 관리자 암호 유효기간 확인
@@ -177,7 +177,7 @@ class MainController : BaseController(Dispatchers.IO) {
 
             while (isActive) {
                 time = LocalDateTime.now()
-                
+
                 // 1시간 주기 확인 동작
                 if (hour != time.hour) {
                     hour = time.hour
@@ -400,9 +400,9 @@ class MainController : BaseController(Dispatchers.IO) {
         }
     }
 
-    /** 
+    /**
      * 이전 사진 촬영시 저장한 파일 삭제
-     * 
+     *
      * 출퇴근 오류나 취소시 삭제함
      */
     fun deleteLastPhoto() {
@@ -438,24 +438,24 @@ class MainController : BaseController(Dispatchers.IO) {
              */
             while (true) {
                 //if (KeyPad.isHwStatusTriggered || RfReader.isHwStatusTriggered || Suprema.isHwStatusTriggered || TempSensor.isHwStatusTriggered) {
-/*
-                if (!KeyPad.isHwOk || !RfReader.isHwOk || !Suprema.isHwOk || !TempSensor.isHwOk) {
-                    val sb = StringBuilder()
-                    if (!KeyPad.isHwOk) {
-                        sb.append("키패드 [B8001]")
-                    }
-                    if (!RfReader.isHwOk) {
-                        sb.append("\nRF리더기 [B5001]")
-                    }
-                    if (!Suprema.isHwOk) {
-                        sb.append("\n지문인식기 [B3001]")
-                    }
-                    if (!TempSensor.isHwOk) {
-                        sb.append("\n온도센서 [B6001]")
-                    }
-                    infoMessage = InfoMessage("오류", sb.toString(), IconType.Error)
-                }
-*/
+                /*
+                                if (!KeyPad.isHwOk || !RfReader.isHwOk || !Suprema.isHwOk || !TempSensor.isHwOk) {
+                                    val sb = StringBuilder()
+                                    if (!KeyPad.isHwOk) {
+                                        sb.append("키패드 [B8001]")
+                                    }
+                                    if (!RfReader.isHwOk) {
+                                        sb.append("\nRF리더기 [B5001]")
+                                    }
+                                    if (!Suprema.isHwOk) {
+                                        sb.append("\n지문인식기 [B3001]")
+                                    }
+                                    if (!TempSensor.isHwOk) {
+                                        sb.append("\n온도센서 [B6001]")
+                                    }
+                                    infoMessage = InfoMessage("오류", sb.toString(), IconType.Error)
+                                }
+                */
                 deviceStatus = if (!KeyPad.isHwOk) {
                     "B8001"
                 } else if (!RfReader.isHwOk) {
@@ -486,4 +486,3 @@ class MainController : BaseController(Dispatchers.IO) {
         }
     }
 }
-
