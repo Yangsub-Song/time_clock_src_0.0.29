@@ -33,12 +33,12 @@ object Settings: Preference() {
 
     const val INTEGRITY_CHECK_HOURS = 24L
 
-    var adminHost: String by preference(userPref, "adminHost", "")
+    var adminHost: String by preference(userPref, "adminHost", "http://ez-m.co.kr")
 
     var ADMIN_KEY = ""
     var ADMIN_KEY_ENC: String by preference(userPref, "ADMIN_KEY_ENC", "")  // Yade0927
     var ADMIN_KEY_AES_ENC: String by preference(userPref, "ADMIN_KEY_AES_ENC", "")
-    var cwmaHost: String by preference(userPref, "cwmaHost", "")
+    var cwmaHost: String by preference(userPref, "cwmaHost", "https://test_ecard.cwma.or.kr")
 
     // Yade0925
     var terminalId: String by preference(userPref, "terminalId", "100103970101713715177")   // terminalId와 placeCd의 초기값이 널이면 보안키 등록에서 에러가 남.
